@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Enums\PaymentStatus;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Payment;
@@ -23,7 +24,7 @@ class StatsOverview extends StatsOverviewWidget
             ->count();
 
         $monthlyRevenue = Payment::query()
-            ->where('status', 'pago')
+            ->where('status', PaymentStatus::Pago)
             ->whereMonth('paid_at', now()->month)
             ->whereYear('paid_at', now()->year)
             ->sum('amount');

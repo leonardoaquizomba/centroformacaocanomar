@@ -53,16 +53,7 @@ class MinhasInscricoesResource extends Resource
                     ->placeholder('—'),
                 TextColumn::make('status')
                     ->label('Estado')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'pendente' => 'warning',
-                        'aprovado' => 'info',
-                        'matriculado' => 'success',
-                        'concluído' => 'success',
-                        'rejeitado' => 'danger',
-                        'cancelado' => 'gray',
-                        default => 'gray',
-                    }),
+                    ->badge(),
                 TextColumn::make('created_at')
                     ->label('Data de Inscrição')
                     ->dateTime('d/m/Y')

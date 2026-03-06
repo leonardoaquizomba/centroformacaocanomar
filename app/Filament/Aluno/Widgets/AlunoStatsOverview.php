@@ -2,6 +2,7 @@
 
 namespace App\Filament\Aluno\Widgets;
 
+use App\Enums\EnrollmentStatus;
 use App\Models\Certificate;
 use App\Models\Enrollment;
 use Filament\Widgets\StatsOverviewWidget;
@@ -20,12 +21,12 @@ class AlunoStatsOverview extends StatsOverviewWidget
 
         $activeEnrollments = Enrollment::query()
             ->where('user_id', $userId)
-            ->whereIn('status', ['aprovado', 'matriculado'])
+            ->whereIn('status', [EnrollmentStatus::Aprovado, EnrollmentStatus::Matriculado])
             ->count();
 
         $completedCourses = Enrollment::query()
             ->where('user_id', $userId)
-            ->where('status', 'concluído')
+            ->where('status', EnrollmentStatus::Concluido)
             ->count();
 
         $certificates = Certificate::query()

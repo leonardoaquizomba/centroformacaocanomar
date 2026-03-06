@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\Payments\Tables;
 
 use App\Actions\ProcessPaymentApproval;
+use App\Enums\PaymentMethod;
+use App\Enums\PaymentStatus;
 use App\Models\Payment;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -31,24 +33,13 @@ class PaymentsTable
                     ->sortable(),
                 TextColumn::make('method')
                     ->label('Método')
-                    ->badge()
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'transferencia' => 'Transferência',
-                        'multicaixa' => 'Multicaixa',
-                        default => $state,
-                    }),
+                    ->badge(),
                 TextColumn::make('reference')
                     ->label('Referência')
                     ->placeholder('—'),
                 TextColumn::make('status')
                     ->label('Estado')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'pendente' => 'warning',
-                        'pago' => 'success',
-                        'cancelado' => 'danger',
-                        default => 'gray',
-                    }),
+                    ->badge(),
                 TextColumn::make('paid_at')
                     ->label('Pago em')
                     ->dateTime('d/m/Y')
@@ -63,17 +54,10 @@ class PaymentsTable
             ->filters([
                 SelectFilter::make('status')
                     ->label('Estado')
-                    ->options([
-                        'pendente' => 'Pendente',
-                        'pago' => 'Pago',
-                        'cancelado' => 'Cancelado',
-                    ]),
+                    ->options(PaymentStatus::class),
                 SelectFilter::make('method')
                     ->label('Método')
-                    ->options([
-                        'transferencia' => 'Transferência',
-                        'multicaixa' => 'Multicaixa',
-                    ]),
+                    ->options(PaymentMethod::class),
             ])
             ->recordActions([
                 Action::make('markAsPaid')
@@ -84,7 +68,7 @@ class PaymentsTable
                     ->modalHeading('Confirmar Pagamento')
                     ->modalDescription('Confirma que este pagamento foi efectuado?')
                     ->modalSubmitActionLabel('Sim, confirmar')
-                    ->visible(fn (Payment $record): bool => $record->status === 'pendente')
+                    ->visible(fn (Payment $record): bool => $record->status === PaymentStatus::Pendente)
                     ->action(function (Payment $record, ProcessPaymentApproval $action): void {
                         $action->execute($record);
                     }),

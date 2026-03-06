@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Courses\Schemas;
 
+use App\Enums\CourseLevel;
+use App\Enums\CourseModality;
 use App\Models\CourseCategory;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -59,21 +61,13 @@ class CourseForm
                             ->minValue(1),
                         Select::make('modality')
                             ->label('Modalidade')
-                            ->options([
-                                'presencial' => 'Presencial',
-                                'online' => 'Online',
-                                'misto' => 'Misto',
-                            ])
-                            ->default('presencial')
+                            ->options(CourseModality::class)
+                            ->default(CourseModality::Presencial)
                             ->required(),
                         Select::make('level')
                             ->label('Nível')
-                            ->options([
-                                'básico' => 'Básico',
-                                'médio' => 'Médio',
-                                'avançado' => 'Avançado',
-                            ])
-                            ->default('básico')
+                            ->options(CourseLevel::class)
+                            ->default(CourseLevel::Basico)
                             ->required(),
                         TextInput::make('price')
                             ->label('Preço (AOA)')

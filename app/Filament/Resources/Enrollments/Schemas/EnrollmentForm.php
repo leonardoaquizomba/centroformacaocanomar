@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Enrollments\Schemas;
 
+use App\Enums\EnrollmentStatus;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Section;
@@ -33,15 +34,8 @@ class EnrollmentForm
                             ->searchable(),
                         Select::make('status')
                             ->label('Estado')
-                            ->options([
-                                'pendente' => 'Pendente',
-                                'aprovado' => 'Aprovado',
-                                'rejeitado' => 'Rejeitado',
-                                'matriculado' => 'Matriculado',
-                                'concluído' => 'Concluído',
-                                'cancelado' => 'Cancelado',
-                            ])
-                            ->default('pendente')
+                            ->options(EnrollmentStatus::class)
+                            ->default(EnrollmentStatus::Pendente)
                             ->required(),
                         Textarea::make('notes')
                             ->label('Notas')

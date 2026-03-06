@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\CourseLevel;
+use App\Enums\CourseModality;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,6 +32,8 @@ class Course extends Model
     {
         return [
             'price' => 'decimal:2',
+            'modality' => CourseModality::class,
+            'level' => CourseLevel::class,
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
         ];

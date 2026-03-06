@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Courses\Tables;
 
+use App\Enums\CourseLevel;
+use App\Enums\CourseModality;
 use App\Models\CourseCategory;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -37,12 +39,7 @@ class CoursesTable
                     ->suffix('h'),
                 TextColumn::make('modality')
                     ->label('Modalidade')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'presencial' => 'success',
-                        'online' => 'info',
-                        'misto' => 'warning',
-                    }),
+                    ->badge(),
                 TextColumn::make('level')
                     ->label('Nível')
                     ->badge(),
@@ -69,18 +66,10 @@ class CoursesTable
                     ->options(CourseCategory::pluck('name', 'id')),
                 SelectFilter::make('modality')
                     ->label('Modalidade')
-                    ->options([
-                        'presencial' => 'Presencial',
-                        'online' => 'Online',
-                        'misto' => 'Misto',
-                    ]),
+                    ->options(CourseModality::class),
                 SelectFilter::make('level')
                     ->label('Nível')
-                    ->options([
-                        'básico' => 'Básico',
-                        'médio' => 'Médio',
-                        'avançado' => 'Avançado',
-                    ]),
+                    ->options(CourseLevel::class),
                 TernaryFilter::make('is_active')
                     ->label('Activo'),
                 TernaryFilter::make('is_featured')

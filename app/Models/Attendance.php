@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AttendanceStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -19,6 +20,7 @@ class Attendance extends Model
     {
         return [
             'session_date' => 'date',
+            'status' => AttendanceStatus::class,
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Professor\Resources;
 
+use App\Enums\AttendanceStatus;
 use App\Filament\Professor\Resources\PresencasResource\Pages\CreatePresenca;
 use App\Filament\Professor\Resources\PresencasResource\Pages\EditPresenca;
 use App\Filament\Professor\Resources\PresencasResource\Pages\ListPresencas;
@@ -72,14 +73,9 @@ class PresencasResource extends Resource
                         ->displayFormat('d/m/Y'),
                     Select::make('status')
                         ->label('Estado')
-                        ->options([
-                            'presente' => 'Presente',
-                            'ausente' => 'Ausente',
-                            'atrasado' => 'Atrasado',
-                            'justificado' => 'Justificado',
-                        ])
+                        ->options(AttendanceStatus::class)
                         ->required()
-                        ->default('presente'),
+                        ->default(AttendanceStatus::Presente),
                     Textarea::make('notes')
                         ->label('Observações')
                         ->columnSpanFull(),
@@ -105,14 +101,7 @@ class PresencasResource extends Resource
                     ->sortable(),
                 TextColumn::make('status')
                     ->label('Estado')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'presente' => 'success',
-                        'ausente' => 'danger',
-                        'atrasado' => 'warning',
-                        'justificado' => 'info',
-                        default => 'gray',
-                    }),
+                    ->badge(),
             ])
             ->filters([
                 SelectFilter::make('course_class_id')
@@ -124,12 +113,7 @@ class PresencasResource extends Resource
                     ),
                 SelectFilter::make('status')
                     ->label('Estado')
-                    ->options([
-                        'presente' => 'Presente',
-                        'ausente' => 'Ausente',
-                        'atrasado' => 'Atrasado',
-                        'justificado' => 'Justificado',
-                    ]),
+                    ->options(AttendanceStatus::class),
             ])
             ->recordActions([
                 EditAction::make(),

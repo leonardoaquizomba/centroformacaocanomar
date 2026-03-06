@@ -2,6 +2,7 @@
 
 namespace App\Filament\Professor\Widgets;
 
+use App\Enums\EnrollmentStatus;
 use App\Models\CourseClass;
 use App\Models\Enrollment;
 use Filament\Widgets\StatsOverviewWidget;
@@ -21,7 +22,7 @@ class ProfessorStatsOverview extends StatsOverviewWidget
 
         $totalStudents = Enrollment::query()
             ->whereHas('courseClass', fn ($q) => $q->where('teacher_id', $userId))
-            ->whereIn('status', ['matriculado', 'concluído'])
+            ->whereIn('status', [EnrollmentStatus::Matriculado, EnrollmentStatus::Concluido])
             ->distinct('user_id')
             ->count('user_id');
 
@@ -31,7 +32,7 @@ class ProfessorStatsOverview extends StatsOverviewWidget
 
         $pendingGrades = Enrollment::query()
             ->whereHas('courseClass', fn ($q) => $q->where('teacher_id', $userId))
-            ->where('status', 'matriculado')
+            ->where('status', EnrollmentStatus::Matriculado)
             ->whereDoesntHave('courseClass.grades', fn ($q) => $q->where('teacher_id', $userId))
             ->count();
 

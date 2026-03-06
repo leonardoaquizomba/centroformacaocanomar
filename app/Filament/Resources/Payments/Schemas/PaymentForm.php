@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Payments\Schemas;
 
+use App\Enums\PaymentMethod;
+use App\Enums\PaymentStatus;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -29,23 +31,16 @@ class PaymentForm
                             ->prefix('Kz'),
                         Select::make('method')
                             ->label('Método de Pagamento')
-                            ->options([
-                                'transferencia' => 'Transferência Bancária',
-                                'multicaixa' => 'Referência Multicaixa',
-                            ])
-                            ->default('transferencia')
+                            ->options(PaymentMethod::class)
+                            ->default(PaymentMethod::Transferencia)
                             ->required(),
                         TextInput::make('reference')
                             ->label('Referência')
                             ->maxLength(255),
                         Select::make('status')
                             ->label('Estado')
-                            ->options([
-                                'pendente' => 'Pendente',
-                                'pago' => 'Pago',
-                                'cancelado' => 'Cancelado',
-                            ])
-                            ->default('pendente')
+                            ->options(PaymentStatus::class)
+                            ->default(PaymentStatus::Pendente)
                             ->required(),
                         DateTimePicker::make('paid_at')
                             ->label('Data de Pagamento')

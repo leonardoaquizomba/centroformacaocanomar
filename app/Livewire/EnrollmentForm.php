@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Enums\EnrollmentStatus;
 use App\Mail\SendEnrollmentReceivedEmail;
 use App\Models\Course;
 use App\Models\CourseClass;
@@ -92,7 +93,7 @@ class EnrollmentForm extends Component
             'user_id' => $user->id,
             'course_id' => $this->course->id,
             'course_class_id' => $this->courseClassId,
-            'status' => 'pendente',
+            'status' => EnrollmentStatus::Pendente,
             'notes' => $this->notes ?: null,
         ]);
 

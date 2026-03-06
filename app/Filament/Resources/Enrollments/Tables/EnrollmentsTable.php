@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Enrollments\Tables;
 
+use App\Enums\EnrollmentStatus;
 use App\Mail\SendEnrollmentApprovedEmail;
 use App\Models\Enrollment;
 use Filament\Actions\Action;
@@ -32,16 +33,7 @@ class EnrollmentsTable
                     ->placeholder('Sem turma'),
                 TextColumn::make('status')
                     ->label('Estado')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'pendente' => 'warning',
-                        'aprovado' => 'info',
-                        'matriculado' => 'success',
-                        'concluído' => 'success',
-                        'rejeitado' => 'danger',
-                        'cancelado' => 'gray',
-                        default => 'gray',
-                    }),
+                    ->badge(),
                 TextColumn::make('approved_at')
                     ->label('Aprovado em')
                     ->dateTime('d/m/Y')
@@ -55,14 +47,7 @@ class EnrollmentsTable
             ->filters([
                 SelectFilter::make('status')
                     ->label('Estado')
-                    ->options([
-                        'pendente' => 'Pendente',
-                        'aprovado' => 'Aprovado',
-                        'rejeitado' => 'Rejeitado',
-                        'matriculado' => 'Matriculado',
-                        'concluído' => 'Concluído',
-                        'cancelado' => 'Cancelado',
-                    ]),
+                    ->options(EnrollmentStatus::class),
             ])
             ->recordActions([
                 Action::make('approve')
@@ -73,10 +58,10 @@ class EnrollmentsTable
                     ->modalHeading('Aprovar Inscrição')
                     ->modalDescription('Tem a certeza que deseja aprovar esta inscrição?')
                     ->modalSubmitActionLabel('Sim, aprovar')
-                    ->visible(fn (Enrollment $record): bool => $record->status === 'pendente')
+                    ->visible(fn (Enrollment $record): bool => $record->status === EnrollmentStatus::Pendente)
                     ->action(function (Enrollment $record): void {
                         $record->update([
-                            'status' => 'aprovado',
+                            'status' => EnrollmentStatus::Aprovado,
                             'approved_at' => now(),
                             'approved_by' => Auth::id(),
                         ]);
@@ -90,8 +75,8 @@ class EnrollmentsTable
                     ->modalHeading('Rejeitar Inscrição')
                     ->modalDescription('Tem a certeza que deseja rejeitar esta inscrição?')
                     ->modalSubmitActionLabel('Sim, rejeitar')
-                    ->visible(fn (Enrollment $record): bool => $record->status === 'pendente')
-                    ->action(fn (Enrollment $record) => $record->update(['status' => 'rejeitado'])),
+                    ->visible(fn (Enrollment $record): bool => $record->status === EnrollmentStatus::Pendente)
+                    ->action(fn (Enrollment $record) => $record->update(['status' => EnrollmentStatus::Rejeitado])),
                 EditAction::make(),
             ])
             ->toolbarActions([
