@@ -52,4 +52,22 @@ class CourseClass extends Model
     {
         return $this->hasMany(Enrollment::class);
     }
+
+    /** @return \Illuminate\Database\Eloquent\Relations\HasMany<CourseMaterial, $this> */
+    public function materials(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(CourseMaterial::class);
+    }
+
+    /** @return \Illuminate\Database\Eloquent\Relations\HasMany<Grade, $this> */
+    public function grades(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Grade::class);
+    }
+
+    /** @return \Illuminate\Database\Eloquent\Relations\HasMany<Attendance, $this> */
+    public function attendances(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Attendance::class);
+    }
 }

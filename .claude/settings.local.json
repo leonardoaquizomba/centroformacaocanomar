@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan make:model CourseMaterial -m --no-interaction)",
+      "Bash(php artisan make:model Grade -m --no-interaction)",
+      "Bash(php artisan make:model Attendance -m --no-interaction)",
+      "Bash(php artisan migrate --no-interaction)",
+      "Bash(php artisan make:filament-panel aluno --no-interaction)",
+      "Bash(php artisan make:filament-panel professor --no-interaction)",
+      "Bash(php artisan route:list --path=aluno --no-interaction)",
+      "Bash(php artisan route:list --path=professor --no-interaction)",
+      "Bash(vendor/bin/pint --dirty)"
+    ]
+  }
+}

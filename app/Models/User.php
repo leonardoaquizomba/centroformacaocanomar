@@ -60,7 +60,12 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        return match ($panel->getId()) {
+            'admin' => $this->hasRole('admin'),
+            'aluno' => $this->hasRole('aluno'),
+            'professor' => $this->hasRole('professor'),
+            default => false,
+        };
     }
 
     /** @return \Illuminate\Database\Eloquent\Relations\HasOne<StudentProfile, $this> */
