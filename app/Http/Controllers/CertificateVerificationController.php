@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VerifyCertificateRequest;
 use App\Models\Certificate;
-use Illuminate\Http\Request;
 
 class CertificateVerificationController extends Controller
 {
@@ -12,9 +12,8 @@ class CertificateVerificationController extends Controller
         return view('pages.certificate-verify');
     }
 
-    public function verify(Request $request): \Illuminate\Http\JsonResponse
+    public function verify(VerifyCertificateRequest $request): \Illuminate\Http\JsonResponse
     {
-        $request->validate(['code' => 'required|string|max:30']);
 
         $certificate = Certificate::query()
             ->with(['user', 'course'])
