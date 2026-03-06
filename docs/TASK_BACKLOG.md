@@ -28,37 +28,37 @@
 
 ## PHASE 2 – Filament Admin Panel
 
-- [ ] T-015 – CourseCategoryResource
-- [ ] T-016 – CourseResource
-- [ ] T-017 – CourseClassResource
-- [ ] T-018 – StudentResource
-- [ ] T-019 – TeacherResource
-- [ ] T-020 – EnrollmentResource (with approve/reject actions)
-- [ ] T-021 – PaymentResource (with mark-as-paid action)
-- [ ] T-022 – CertificateResource (with generate action)
-- [ ] T-023 – PostResource (blog CRUD)
-- [ ] T-024 – ContactMessageResource (inbox)
-- [ ] T-025 – TestimonialResource
-- [ ] T-026 – Admin Dashboard Widgets (TotalStudents, ActiveCourses, MonthlyEnrollments, MonthlyRevenue)
+- [x] T-015 – CourseCategoryResource
+- [x] T-016 – CourseResource
+- [x] T-017 – CourseClassResource
+- [x] T-018 – StudentResource
+- [x] T-019 – TeacherResource
+- [x] T-020 – EnrollmentResource (with approve/reject actions)
+- [x] T-021 – PaymentResource (with mark-as-paid action)
+- [x] T-022 – CertificateResource (with generate action)
+- [x] T-023 – PostResource (blog CRUD)
+- [x] T-024 – ContactMessageResource (inbox)
+- [x] T-025 – TestimonialResource
+- [x] T-026 – Admin Dashboard Widgets (TotalStudents, ActiveCourses, MonthlyEnrollments, MonthlyRevenue)
 
 ---
 
 ## PHASE 3 – Student & Teacher Portals (Filament Panels)
 
-- [ ] T-027 – StudentPanelProvider (path: /aluno)
-- [ ] T-028 – Student Dashboard widgets
-- [ ] T-029 – MyEnrollmentsResource (student view)
-- [ ] T-030 – MyCertificatesResource (student download)
-- [ ] T-031 – MaterialsResource (student download)
-- [ ] T-032 – GradesResource (student view)
+- [x] T-027 – StudentPanelProvider (path: /aluno)
+- [x] T-028 – Student Dashboard widgets
+- [x] T-029 – MyEnrollmentsResource (student view)
+- [x] T-030 – MyCertificatesResource (student download)
+- [x] T-031 – MaterialsResource (student download)
+- [x] T-032 – GradesResource (student view)
 - [ ] T-033 – MyCalendarPage (Livewire, student schedules)
-- [ ] T-034 – Student profile page
-- [ ] T-035 – TeacherPanelProvider (path: /professor)
-- [ ] T-036 – Teacher Dashboard widgets
-- [ ] T-037 – MyClassesResource (teacher view)
-- [ ] T-038 – AttendanceResource
-- [ ] T-039 – GradeEntryResource
-- [ ] T-040 – MaterialUploadResource
+- [ ] T-034 – Student profile page (extended)
+- [x] T-035 – TeacherPanelProvider (path: /professor)
+- [x] T-036 – Teacher Dashboard widgets
+- [x] T-037 – MyClassesResource (teacher view)
+- [x] T-038 – AttendanceResource
+- [x] T-039 – GradeEntryResource
+- [x] T-040 – MaterialUploadResource
 - [ ] T-041 – ClassReportPage
 
 ---

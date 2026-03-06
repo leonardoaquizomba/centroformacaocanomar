@@ -2,6 +2,28 @@
 
 ---
 
+## 2026-03-06 – Phase 3: Student & Teacher Portals (T-027 to T-041)
+
+**Tasks:** T-027 to T-041
+
+**What was done:**
+- New models + migrations: CourseMaterial, Grade, Attendance (with unique session constraint)
+- Added `canAccessPanel()` to User model — role-based panel access (admin/aluno/professor)
+- Student Portal `/aluno` (AlunoPanelProvider): login, profile, darkMode, orange theme
+  - AlunoStatsOverview widget (T-028): active enrollments, completed courses, certificates
+  - MinhasInscricoesResource (T-029): own enrollments, scoped to auth user, read-only
+  - MeusCertificadosResource (T-030): own certificates with PDF indicator
+  - MateriaisResource (T-031): materials from enrolled classes
+  - MinhasNotasResource (T-032): own grades with score display
+- Teacher Portal `/professor` (ProfessorPanelProvider): login, profile, darkMode, orange theme
+  - ProfessorStatsOverview widget (T-036): active classes, total students, pending grades
+  - MinhasTurmasResource (T-037): own classes with enrollment counts
+  - PresencasResource (T-038): attendance CRUD scoped to own classes
+  - NotasResource (T-039): grade entry, teacher_id auto-set on create
+  - MateriaisUploadResource (T-040): file uploads to private storage, scoped to own classes
+
+---
+
 ## 2026-03-06 – Phase 2: Filament Admin Panel (T-015 to T-026)
 
 **Tasks:** T-015, T-016, T-017, T-018, T-019, T-020, T-021, T-022, T-023, T-024, T-025, T-026
