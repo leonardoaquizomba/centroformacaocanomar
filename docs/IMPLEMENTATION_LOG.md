@@ -2,6 +2,24 @@
 
 ---
 
+## 2026-03-06 – Enum Refactor + Phase 7: Tests (T-062 to T-066)
+
+**Tasks:** T-062, T-063, T-064, T-065, T-066 + enum refactor
+
+**What was done:**
+
+- **Enum refactor**: Created 8 PHP backed string enum classes in `app/Enums/` — `EnrollmentStatus`, `PaymentStatus`, `PaymentMethod`, `CourseModality`, `CourseLevel`, `AttendanceStatus`, `DocumentType`, `DayOfWeek` — all implementing `HasLabel` (and `HasColor` where applicable). Updated model `casts()` for `Enrollment`, `Payment`, `Course`, `Attendance`, `EnrollmentDocument`, `Schedule`. Removed manual color closures and options arrays from all Filament tables, forms, and widgets; replaced with enum class references.
+- **T-062 EnrollmentFlowTest**: enrollment creation, email queuing, role assignment, payment approval, secure download auth — 7 tests.
+- **T-063 CertificateJobTest**: queue dispatch, PDF generation + private disk storage, code format, upsert idempotency — 4 tests.
+- **T-064 PublicPagesTest**: smoke test all public routes, blog pagination, certificate verification — 9 tests.
+- **T-065 AdminResourcesTest**: admin panel access, resource list pages, portal panel access per role — 10 tests.
+- **T-066 ModelsTest**: role assignments, course/enrollment/payment relationships, cert code format, arch tests — 14 tests.
+- **Bug fixes**: `BlogController` HAVING clause replaced with `whereHas` (SQLite compat); `courses/show.blade.php` updated to use `->getLabel()` on enum fields; named `login` route added for auth middleware redirect; `EnrollmentFactory` and `PaymentFactory` filled with proper definitions; `RoleSeeder` seeded in `Pest.php` `beforeEach`.
+
+**Result:** 60/60 tests passing.
+
+---
+
 ## 2026-03-06 – Phase 6: Security & Configuration (T-058 to T-061, T-057 deferred)
 
 **Tasks:** T-058, T-059, T-060, T-061

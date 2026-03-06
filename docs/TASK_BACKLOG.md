@@ -101,11 +101,11 @@
 
 ## PHASE 7 – Tests
 
-- [ ] T-062 – Feature: enrollment flow
-- [ ] T-063 – Feature: certificate generation job
-- [ ] T-064 – Feature: public pages
-- [ ] T-065 – Feature: admin Filament resources
-- [ ] T-066 – Unit: models and business logic
+- [x] T-062 – Feature: enrollment flow
+- [x] T-063 – Feature: certificate generation job
+- [x] T-064 – Feature: public pages
+- [x] T-065 – Feature: admin Filament resources
+- [x] T-066 – Unit: models and business logic
 
 ---
 
