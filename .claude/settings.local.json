@@ -54,7 +54,12 @@
       "Bash(php artisan make:factory PostCategoryFactory --model=PostCategory --no-interaction)",
       "Bash(php artisan test --compact)",
       "Bash(grep -n \"status\\\\|check\\\\|enum\" c:/Users/leona/Herd/centroformacaocanomar/database/migrations/*enrollments*)",
-      "Bash(php artisan test)"
+      "Bash(php artisan test)",
+      "Bash(php artisan make:model NewsletterSubscriber -mf --no-interaction)",
+      "Bash(php artisan make:livewire NewsletterForm --no-interaction)",
+      "Bash(php artisan make:controller NewsletterController --no-interaction)",
+      "Bash(php artisan make:test NewsletterTest --pest --no-interaction)",
+      "Bash(php artisan test --compact --filter=NewsletterTest)"
     ],
     "additionalDirectories": [
       "c:\\Users\\leona\\.claude\\projects\\c--Users-leona-Herd-centroformacaocanomar\\memory"
