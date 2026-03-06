@@ -9,18 +9,22 @@ class BlogController extends Controller
 {
     public function index(): \Illuminate\View\View
     {
+        $activeCategory = request()->query('categoria');
+
         $posts = Post::query()
             ->with('category')
             ->where('is_published', true)
+            ->when($activeCategory, fn ($q) => $q->whereHas('category', fn ($c) => $c->where('slug', $activeCategory)))
             ->latest('published_at')
-            ->paginate(9);
+            ->paginate(9)
+            ->appends(request()->query());
 
         $categories = PostCategory::query()
             ->withCount(['posts' => fn ($q) => $q->where('is_published', true)])
             ->whereHas('posts', fn ($q) => $q->where('is_published', true))
             ->get();
 
-        return view('pages.blog.index', compact('posts', 'categories'));
+        return view('pages.blog.index', compact('posts', 'categories', 'activeCategory'));
     }
 
     public function show(string $slug): \Illuminate\View\View

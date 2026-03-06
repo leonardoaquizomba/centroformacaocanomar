@@ -121,13 +121,6 @@
          FOOTER
     ════════════════════════════════ --}}
     <footer class="bg-secondary-900 text-white">
-        <!-- Top wave -->
-        <div class="text-slate-100 overflow-hidden leading-none -mb-px">
-            <svg viewBox="0 0 1440 60" fill="currentColor" preserveAspectRatio="none" class="w-full h-12 text-white">
-                <path d="M0,60 C360,0 1080,0 1440,60 L1440,0 L0,0 Z"/>
-            </svg>
-        </div>
-
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
 
