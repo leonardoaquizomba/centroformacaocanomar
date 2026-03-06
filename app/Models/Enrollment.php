@@ -6,6 +6,44 @@ use App\Enums\EnrollmentStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int $course_id
+ * @property int|null $course_class_id
+ * @property EnrollmentStatus $status
+ * @property string|null $notes
+ * @property \Illuminate\Support\Carbon|null $approved_at
+ * @property int|null $approved_by
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User|null $approvedBy
+ * @property-read \App\Models\Certificate|null $certificate
+ * @property-read \App\Models\Course $course
+ * @property-read \App\Models\CourseClass|null $courseClass
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\EnrollmentDocument> $documents
+ * @property-read int|null $documents_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
+ * @property-read int|null $payments_count
+ * @property-read \App\Models\User $user
+ *
+ * @method static \Database\Factories\EnrollmentFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereApprovedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereApprovedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereCourseClassId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereCourseId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereUserId($value)
+ *
+ * @mixin \Eloquent
+ */
 class Enrollment extends Model
 {
     /** @use HasFactory<\Database\Factories\EnrollmentFactory> */

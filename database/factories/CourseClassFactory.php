@@ -17,7 +17,13 @@ class CourseClassFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'course_id' => \App\Models\Course::factory(),
+            'teacher_id' => null,
+            'name' => 'Turma '.fake()->bothify('??##'),
+            'start_date' => now()->addMonth(),
+            'end_date' => now()->addMonths(3),
+            'max_students' => 20,
+            'is_active' => true,
         ];
     }
 }
