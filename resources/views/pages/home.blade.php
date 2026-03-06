@@ -405,6 +405,33 @@
     @endif
 
     {{-- ══════════════════════════════════════
+         NEWSLETTER
+    ══════════════════════════════════════ --}}
+    <section class="py-20 bg-gradient-hero relative overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute -top-20 -right-20 w-80 h-80 bg-primary-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-secondary-700/20 rounded-full blur-3xl"></div>
+        </div>
+        <div class="relative max-w-3xl mx-auto px-4 text-center">
+            <div class="inline-flex items-center justify-center w-14 h-14 bg-primary-500/20 border border-primary-500/30 rounded-2xl mb-6">
+                <i class="fa-solid fa-envelope-open-text text-primary-400 text-2xl"></i>
+            </div>
+            <p class="text-primary-400 font-semibold uppercase tracking-widest text-sm mb-3">Newsletter</p>
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-4">
+                Fique sempre actualizado
+            </h2>
+            <p class="text-slate-300 text-lg mb-10 max-w-lg mx-auto">
+                Subscreva a nossa newsletter e receba notícias sobre novos cursos, eventos e oportunidades de formação.
+            </p>
+            <livewire:newsletter-form />
+            <p class="text-slate-500 text-xs mt-5">
+                <i class="bi bi-shield-check mr-1"></i>
+                Sem spam. Pode cancelar a subscrição a qualquer momento.
+            </p>
+        </div>
+    </section>
+
+    {{-- ══════════════════════════════════════
          CTA BANNER
     ══════════════════════════════════════ --}}
     <section class="py-20 bg-secondary-900 relative overflow-hidden">

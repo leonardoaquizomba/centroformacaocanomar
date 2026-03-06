@@ -162,6 +162,7 @@
                             <i class="bi bi-whatsapp text-sm"></i>
                         </a>
                     </div>
+                    <livewire:newsletter-form :compact="true" />
                 </div>
 
                 {{-- Links Rápidos --}}

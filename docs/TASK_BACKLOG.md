@@ -111,10 +111,11 @@
 
 ## PHASE 8 – Advanced Features (Post-MVP)
 
-- [ ] T-067 – Multilingual (pt/en) with URL prefixes
-- [ ] T-068 – Internal messaging system
-- [ ] T-069 – In-app notifications
-- [ ] T-070 – 2FA for student portal
+- [x] T-067 – Newsletter subscription (homepage section + footer widget, Livewire form, admin resource, unsubscribe route)
+- [ ] T-068 – Multilingual (pt/en) with URL prefixes
+- [ ] T-069 – Internal messaging system
+- [ ] T-070 – In-app notifications
+- [ ] T-071 – 2FA for student portal
 
 ---
 

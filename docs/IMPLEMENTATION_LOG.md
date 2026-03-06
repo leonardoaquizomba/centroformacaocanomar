@@ -2,6 +2,23 @@
 
 ---
 
+## 2026-03-06 – Newsletter Subscription (T-067)
+
+**Task:** T-067
+
+**What was done:**
+
+- **`NewsletterSubscriber` model + migration + factory**: `newsletter_subscribers` table with `email` (unique), `name` (nullable), `token` (unique, for unsubscribe), `subscribed_at`, `unsubscribed_at`; `active()` scope; `unsubscribed()` factory state
+- **`NewsletterForm` Livewire component** (`app/Livewire/NewsletterForm.php`): `email`, `name`, `compact` props; `subscribe()` action using `updateOrCreate` (supports resubscription); email validated as unique among active subscribers via `Rule::unique()->whereNull('unsubscribed_at')`; compact prop toggles between full homepage form and minimal footer form
+- **Homepage newsletter section** added between the Blog section and the CTA Banner (dark gradient background, envelope icon, headline, subtext, full Livewire form)
+- **Footer compact widget** added to the brand column below social links (`<livewire:newsletter-form :compact="true" />`)
+- **`NewsletterController`** + `GET /newsletter/unsubscribe/{token}` route: marks subscriber as unsubscribed, redirects home with flash
+- **Filament admin resource** (`app/Filament/Resources/Newsletter/NewsletterSubscriberResource.php`): read-only list, status badge (Activo/Cancelado), active/unsubscribed filter, sorted by subscribed_at desc
+- **Pest feature tests** (`tests/Feature/NewsletterTest.php`): 8 tests — subscribe, token stored, duplicate rejection, resubscription, invalid email, unsubscribe, invalid token, compact mode — all passing
+- `vendor/bin/pint --dirty` applied; full suite: 68/68 tests passing
+
+---
+
 ## 2026-03-06 – Enum Refactor + Phase 7: Tests (T-062 to T-066)
 
 **Tasks:** T-062, T-063, T-064, T-065, T-066 + enum refactor
