@@ -1,3 +1,43 @@
+# Task Selection & Planning
+    - Select the highest priority `Pending` task.
+    - Break down the task into implementation steps, considering clean code principles and project architecture.
+    - If the task is ambiguous or blocked, stop execution and append a note to the Known Issues & Technical Debt for human clarification.
+
+# Systematic Implementation
+    - Implement the task step by step:
+        - Modify or create files as needed.
+        - Adhere to existing project style, naming conventions, and folder structure.
+        - Ensure no unrelated changes are introduced.
+    - Utilize specialized reasoning of agents by phase:
+        - Design Agent for planning and interface configurations.
+        - Code Agent for actual implementation.
+        - Refactoring Agent, if necessary, to maintain clean code.
+
+# Commit & Logging
+    - Once the task is successfully implemented:
+        - Stage and commit changes with a descriptive semantic commit message.
+        - Append a new entry to the Implementation Log with:
+            - Current date/time (UTC)
+            - Task ID
+            - Short description of what was done
+        - Update TASK BACKLOG and any other necessary documents. Create if not exist
+
+# Iteration & Next Task
+    - If in batch/loop mode, return to the Task Backlog and repeat steps Task Selection & Planning and Commit & Logging for the next pending task.
+    - If in single-task mode, stop after the commit and log update.
+
+# Fail-Safe Rules
+    - Never skip updating the Implementation Log and any other necessary documents.
+    - Never bundle unrelated tasks into a single commit.
+    - Stop immediately if requirements are unclear or conflicting and log a request for clarification.
+    - Always work incrementally, implementing one feature or fix at a time.
+
+# Notes
+    - Ensure all documentation and logs are up-to-date and accurately reflect the current state of the project.
+    - Maintain clear communication and documentation for any issues or clarifications needed.
+    - Keep the code simple, modular and clear — avoid duplication (DRY), follow SOLID principles, name well, separate responsibilities and refactor whenever something repeats itself or becomes complicated.
+    - Always check if a given file already exists before creating it.
+
 <laravel-boost-guidelines>
 === foundation rules ===
 

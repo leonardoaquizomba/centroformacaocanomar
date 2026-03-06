@@ -1,0 +1,789 @@
+# Especificação Técnica – Plataforma Web CANOMAR
+
+## 1. Objectivos Estratégicos
+
+### 1.1 Presença Digital Institucional
+
+Implementar uma plataforma web institucional para o **CANOMAR – Centro de Formação**, com o objectivo de:
+
+* Posicionar o centro como referência em formação profissional
+* Disponibilizar informação clara sobre cursos e serviços
+* Reforçar credibilidade institucional
+* Melhorar comunicação com alunos
+
+### 1.2 Digitalização Administrativa
+
+Automatizar processos actualmente manuais:
+
+* Inscrições online
+* Matrículas digitais
+* Gestão documental
+* Comunicação institucional
+* Emissão de certificados
+
+Resultado esperado:
+
+* Redução de custos administrativos
+* Menos erros humanos
+* Processos mais rápidos
+
+### 1.3 Aquisição de Novos Alunos
+
+A plataforma deve funcionar como **canal comercial activo**, com:
+
+* Catálogo optimizado
+* Call-to-actions
+* Inscrição simples
+* Processo transparente
+
+### 1.4 Conformidade Técnica
+
+O sistema deve garantir:
+
+* Design responsivo (mobile-first)
+* Segurança de dados
+* Encriptação SSL
+* Conformidade GDPR ou equivalente
+* Backups automáticos
+* Monitorização
+
+Integrações obrigatórias:
+
+* Google Analytics
+* Email marketing
+* Google Maps
+* Pagamentos locais
+
+---
+
+# 2. Arquitectura do Sistema
+
+## 2.1 Estrutura Geral
+
+O sistema será dividido em:
+
+### Área Pública
+
+Acesso sem autenticação.
+
+Inclui:
+
+* Página inicial
+* Cursos
+* Sobre nós
+* Contactos
+* Notícias
+* Inscrição
+
+---
+
+### Área Privada
+
+Acesso com autenticação.
+
+Perfis:
+
+* Aluno
+* Professor
+* Administrador
+
+Sistema de permissões baseado em roles.
+
+Exemplo:
+
+| Função    | Acesso           |
+| --------- | ---------------- |
+| Visitante | Área pública     |
+| Aluno     | Portal aluno (painel dedicado)     |
+| Professor | Portal professor (painel dedicado) |
+| Admin     | Sistema completo (painel dedicado) |
+
+---
+
+# 3. Funcionalidades
+
+## 3.1 Página Inicial
+
+Objectivo: Conversão de visitantes em alunos.
+
+Elementos:
+
+* Banner principal
+* Cursos em destaque
+* Depoimentos
+* Estatísticas
+* Notícias recentes
+
+Exemplos:
+
+* "Mais de 500 alunos formados"
+* "Cursos certificados"
+
+Call-to-actions:
+
+* Inscreva-se
+* Ver cursos
+* Contactar
+
+---
+
+## 3.2 Sobre Nós
+
+Conteúdo:
+
+* História
+* Missão
+* Visão
+* Valores
+* Equipa
+
+Extras recomendados:
+
+* Fotos reais
+* Instalações
+
+---
+
+## 3.3 Contactos
+
+Inclui:
+
+* Telefone
+* Email
+* Morada
+
+Mapa:
+
+* Integração Google Maps
+
+Formulário:
+
+Campos:
+
+* Nome
+* Email
+* Telefone
+* Mensagem
+
+Proteção:
+
+* CAPTCHA
+
+---
+
+## 3.4 Catálogo de Cursos
+
+Estrutura:
+
+Cada curso terá:
+
+* Nome
+* Descrição
+* Duração
+* Modalidade
+* Pré-requisitos
+* Certificação
+* Preço
+* Horários
+
+Filtros:
+
+* Área
+* Duração
+* Modalidade
+* Nível
+
+Pesquisa:
+
+* Pesquisa por nome
+* Pesquisa por palavra-chave
+
+---
+
+## 3.5 Inscrição Online
+
+Fluxo:
+
+### Passo 1 – Pré-registo
+
+Campos:
+
+* Nome
+* Email
+* Telefone
+* Curso
+
+Resultado:
+
+Conta criada com status:
+
+**Pendente**
+
+---
+
+### Passo 2 – Aprovação
+
+Admin aprova.
+
+Status:
+
+* Aprovado
+* Rejeitado
+
+---
+
+### Passo 3 – Matrícula
+
+Aluno envia:
+
+* BI
+* Foto
+* Comprovativos
+
+Upload:
+
+PDF/JPG
+
+---
+
+### Passo 4 – Pagamento
+
+Opções:
+
+* Transferência bancária
+* Referência Multicaixa
+
+Status:
+
+* Pendente
+* Pago
+* Cancelado
+
+---
+
+### Passo 5 – Confirmação
+
+Envio automático:
+
+Email:
+
+* Confirmação
+* Dados do curso
+
+---
+
+# 4. Área do Aluno
+
+Login seguro.
+
+Autenticação:
+
+Email + senha.
+
+Opcional:
+
+2FA.
+
+---
+
+## Funcionalidades
+
+### Dashboard
+
+Mostra:
+
+* Cursos inscritos
+* Próximas aulas
+* Avisos
+
+---
+
+### Materiais
+
+Downloads:
+
+* PDFs
+* Vídeos
+* Documentos
+
+---
+
+### Calendário
+
+Inclui:
+
+* Aulas
+* Testes
+* Eventos
+
+---
+
+### Resultados
+
+Notas:
+
+* Testes
+* Trabalhos
+
+Pautas:
+
+PDF.
+
+---
+
+### Certificados
+
+Download:
+
+PDF assinado digitalmente.
+
+---
+
+### Comunicação
+
+Opções:
+
+* Mensagens internas
+* Fórum
+* Dúvidas
+
+---
+
+# 5. Área dos Professores
+
+Dashboard docente.
+
+---
+
+## Funcionalidades
+
+### Gestão de Turmas
+
+Visualizar:
+
+* Lista de alunos
+* Presenças
+
+---
+
+### Notas
+
+Inserir:
+
+* Avaliações
+* Trabalhos
+* Testes
+
+---
+
+### Materiais
+
+Upload:
+
+* PDFs
+* Vídeos
+
+---
+
+### Comunicação
+
+Enviar:
+
+* Avisos
+* Mensagens
+
+---
+
+### Relatórios
+
+Exemplos:
+
+* Média da turma
+* Frequência
+* Progresso
+
+---
+
+# 6. Área Administrativa
+
+Painel central.
+
+Usuários:
+
+* Alunos
+* Professores
+
+---
+
+## Funcionalidades
+
+### Gestão de Cursos
+
+Criar:
+
+* Cursos
+* Turmas
+
+Editar:
+
+* Conteúdo
+* Preços
+
+---
+
+### Gestão de Inscrições
+
+Ver:
+
+* Pendentes
+* Aprovadas
+
+Aprovar:
+
+1 clique.
+
+---
+
+### Gestão Financeira
+
+Relatórios:
+
+* Matrículas
+* Receitas
+* Cursos mais vendidos
+
+---
+
+### Relatórios
+
+Exemplos:
+
+* Alunos activos
+* Crescimento mensal
+* Conversão de inscrições
+
+---
+
+# 7. Funcionalidades Avançadas
+
+## 7.1 Blog
+
+Objectivo:
+
+SEO.
+
+Conteúdo:
+
+* Notícias
+* Eventos
+* Artigos
+
+---
+
+## 7.2 Multilíngua
+
+Idiomas:
+
+* Português
+* Inglês
+
+Arquitectura recomendada:
+
+URL:
+
+```
+site.com/pt
+site.com/en
+```
+
+---
+
+## 7.3 Redes Sociais
+
+Integrações:
+
+* Facebook
+* Instagram
+* WhatsApp
+
+---
+
+## 7.4 Certificados Automáticos
+
+Sistema gera:
+
+PDF automático.
+
+Inclui:
+
+* Nome
+* Curso
+* Data
+* Código único
+
+Verificação online:
+
+```
+site.com/verificar-certificado
+```
+
+Altamente profissional.
+
+---
+
+# 8. Segurança
+
+Obrigatório:
+
+### SSL
+
+HTTPS obrigatório.
+
+---
+
+### Protecção
+
+Inclui:
+
+* CSRF
+* XSS
+* SQL Injection
+
+---
+
+### Backup
+
+Periodicidade:
+
+Diário.
+
+---
+
+### Armazenamento
+
+Documentos:
+
+Servidor seguro.
+
+---
+
+# 9. Stack Tecnológica Recomendada
+
+## Backend
+
+**Laravel 11 ou 12**
+
+Responsável por:
+
+* API interna
+* Autenticação
+* Permissões
+* Processamento
+* Uploads
+* Certificados
+* Emails
+
+Vantagens:
+
+* Segurança robusta
+* ORM poderoso (Eloquent)
+* Jobs e filas
+* Facilidade de manutenção
+
+---
+
+## Painel Administrativo
+
+**Filament**
+
+Responsável por:
+
+* Área administrativa
+* Área professor
+* Área aluno
+
+Benefícios:
+
+* CRUD rápido
+* Dashboards
+* Permissões
+* Formulários dinâmicos
+* Upload de documentos
+
+Redução estimada:
+
+**40–60% do tempo de desenvolvimento**
+
+---
+
+## Base de Dados
+
+MySQL
+
+Motivos:
+
+* Simples manutenção
+* Hosting barato
+* Compatível com tudo
+* Backups fáceis
+
+---
+
+# 2. Arquitectura de Módulos
+
+O sistema deve ser modular.
+
+Estrutura de Pastas Laravel
+
+Estrutura recomendada:
+
+```
+app
+ ├ Domains
+ │   ├ Courses
+ │   ├ Students
+ │   ├ Teachers
+ │   ├ Enrollments
+ │   ├ Certificates
+ │   ├ Payments
+```
+---
+
+# 7. Filament Resources
+
+Resources recomendados:
+
+```
+CourseResource
+ClassResource
+StudentResource
+TeacherResource
+EnrollmentResource
+MaterialResource
+GradeResource
+CertificateResource
+ApplicationResource
+```
+
+---
+
+# 8. Upload de Documentos
+
+Filesystem:
+
+```
+storage/app/private
+```
+
+Nunca public.
+
+Muito importante.
+
+### Upload
+
+Validar:
+
+```
+pdf
+jpg
+png
+```
+
+Max:
+
+```
+5MB
+```
+
+---
+
+# 10. Email Automático
+
+Eventos:
+
+### Nova inscrição
+
+Aluno recebe:
+
+```
+Inscrição recebida
+```
+
+---
+
+### Aprovação
+
+Aluno recebe:
+
+```
+Conta aprovada
+```
+
+---
+
+### Matrícula confirmada
+
+Aluno recebe:
+
+```
+Matrícula confirmada
+```
+
+---
+
+# 11. Geração de Certificados
+
+Laravel job:
+
+```
+GenerateCertificateJob
+```
+
+Gera:
+
+PDF.
+
+Exemplo:
+
+```
+CAN-2026-000045
+```
+
+Biblioteca:
+
+```
+barryvdh/laravel-dompdf
+```
+
+---
+
+# 12. Dashboards Filament
+
+## Admin
+
+Widgets:
+
+* Total alunos
+* Cursos activos
+* Matrículas mês
+* Receita mês
+
+---
+
+## Professor
+
+Widgets:
+
+* Turmas
+* Alunos
+* Avaliações
+
+---
+
+## Aluno
+
+Widgets:
+
+* Cursos
+* Próximas aulas
+* Notas
