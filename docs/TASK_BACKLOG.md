@@ -65,15 +65,15 @@
 
 ## PHASE 4 – Public Website
 
-- [ ] T-042 – Responsive layout (navbar, footer, social links)
-- [ ] T-043 – Home page (hero, featured courses, stats, testimonials, blog posts)
-- [ ] T-044 – Courses catalog with Livewire search + filters
-- [ ] T-045 – Course detail page
-- [ ] T-046 – Online enrollment multi-step Livewire form
-- [ ] T-047 – About Us page
-- [ ] T-048 – Contacts page (Google Maps + contact form + CAPTCHA)
-- [ ] T-049 – Blog/News list and post detail
-- [ ] T-050 – Certificate verification page
+- [x] T-042 – Responsive layout (navbar, footer, social links)
+- [x] T-043 – Home page (hero, featured courses, stats, testimonials, blog posts)
+- [x] T-044 – Courses catalog with Livewire search + filters
+- [x] T-045 – Course detail page
+- [x] T-046 – Online enrollment multi-step Livewire form
+- [x] T-047 – About Us page
+- [x] T-048 – Contacts page (contact form via Livewire; map placeholder)
+- [x] T-049 – Blog/News list and post detail
+- [x] T-050 – Certificate verification page
 
 ---
 

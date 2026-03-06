@@ -2,6 +2,28 @@
 
 ---
 
+## 2026-03-06 – Phase 4: Public Website (T-042 to T-050)
+
+**Tasks:** T-042 to T-050
+
+**What was done:**
+
+- **Tailwind CSS v4 theme** (`resources/css/app.css`): custom `@theme` with full `primary` (orange `#EC671C`) and `secondary` (navy `#171847`) color scales, display font (Sora), body font (Plus Jakarta Sans), utility classes (`btn-primary`, `btn-secondary`, `btn-outline`, `section-title`, `card-hover`, `bg-gradient-hero`, `bg-gradient-primary`, `text-gradient`)
+- **Layout** (`resources/views/layouts/app.blade.php`): sticky responsive navbar (Alpine.js scroll detection + mobile hamburger), footer with brand, quick links, contact info, social icons (Facebook/Instagram/LinkedIn/YouTube/WhatsApp), scroll-to-top button; Google Fonts, Font Awesome 6, Bootstrap Icons via CDN
+- **Home page** (T-043): hero with gradient + floating stat cards, categories strip, featured courses grid, "Why Canomar" metrics section, orange stats banner, testimonials, recent blog posts, CTA banner
+- **Courses catalog** (T-044): `CourseCatalog` Livewire component with live search + 3 filters (category, modality, level), `#[Url]` bound, active-filter badges, `wire:loading` overlay, paginated card grid
+- **Course detail** (T-045): full description, stats bar, class schedules table, enrollment card with `EnrollmentForm` Livewire component embedded
+- **Enrollment form** (T-046): 3-step Livewire form (personal info → course/class → confirmation), `validateOnly()` per step, creates/finds User + assigns `aluno` role + creates Enrollment with `pendente` status
+- **About page** (T-047): mission/vision, stat cards, values grid, dynamic teacher team section, CTA
+- **Contacts page** (T-048): contact info sidebar, `ContactForm` Livewire component (stores `ContactMessage`), map placeholder
+- **Blog** (T-049): paginated list with category filters; post detail with prose styles, share buttons, related posts
+- **Certificate verification** (T-050): Alpine.js fetch to POST JSON endpoint, valid/invalid result cards
+- **Controllers**: HomeController, CoursesController, AboutController, BlogController, ContactController, CertificateVerificationController
+- **Routes** (`routes/web.php`): all public named routes registered (home, courses.index, courses.show, about, contact, blog.index, blog.show, certificate.verify, certificate.verify.check)
+- Assets compiled: `npm run build`; code formatted: `vendor/bin/pint --dirty`
+
+---
+
 ## 2026-03-06 – Phase 3: Student & Teacher Portals (T-027 to T-041)
 
 **Tasks:** T-027 to T-041
