@@ -2,6 +2,22 @@
 
 ---
 
+## 2026-03-06 – Phase 5: Business Logic & Automation (T-051 to T-056)
+
+**Tasks:** T-051 to T-056
+
+**What was done:**
+
+- **T-051 SendEnrollmentReceivedEmail**: queued mailable + HTML view (`emails.enrollment.received`); dispatched in `EnrollmentForm::submit()`
+- **T-052 SendEnrollmentApprovedEmail**: queued mailable + HTML view (`emails.enrollment.approved`); dispatched in admin `EnrollmentsTable` approve action
+- **T-053 SendEnrollmentConfirmedEmail**: queued mailable + HTML view (`emails.enrollment.confirmed`); dispatched by `ProcessPaymentApproval`
+- **T-054 GenerateCertificateJob**: queued job, generates landscape A4 PDF via `barryvdh/laravel-dompdf`, stores to private disk at `certificates/{slug}-{code}.pdf`, upserts `Certificate` record with code `CAN-YYYY-NNNNNN`
+- **T-055 SecureDownloadController**: auth-gated routes `/download/certificado/{certificate}` and `/download/documento/{document}`; ownership check (own record or admin)
+- **T-056 ProcessPaymentApproval**: action class: marks payment `pago`, updates enrollment to `confirmado`, queues `SendEnrollmentConfirmedEmail` + `GenerateCertificateJob`; wired into PaymentResource `markAsPaid` action
+- Installed `barryvdh/laravel-dompdf ^3.1`
+
+---
+
 ## 2026-03-06 – Phase 4: Public Website (T-042 to T-050)
 
 **Tasks:** T-042 to T-050
@@ -29,6 +45,7 @@
 **Tasks:** T-027 to T-041
 
 **What was done:**
+
 - New models + migrations: CourseMaterial, Grade, Attendance (with unique session constraint)
 - Added `canAccessPanel()` to User model — role-based panel access (admin/aluno/professor)
 - Student Portal `/aluno` (AlunoPanelProvider): login, profile, darkMode, orange theme
@@ -51,6 +68,7 @@
 **Tasks:** T-015, T-016, T-017, T-018, T-019, T-020, T-021, T-022, T-023, T-024, T-025, T-026
 
 **What was done:**
+
 - Created 10 Filament admin resources with Portuguese labels (Schemas + Tables pattern):
   - CourseCategoryResource, CourseResource, CourseClassResource (with Schedule repeater)
   - EnrollmentResource (approve/reject actions), PaymentResource (mark-as-paid action)

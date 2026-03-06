@@ -1,6 +1,7 @@
 # CANOMAR – Task Backlog
 
 ## Legend
+
 - `[x]` Completed
 - `[ ]` Pending
 - `[~]` In Progress
@@ -79,12 +80,12 @@
 
 ## PHASE 5 – Business Logic & Automation
 
-- [ ] T-051 – SendEnrollmentReceivedEmail mailable
-- [ ] T-052 – SendEnrollmentApprovedEmail mailable
-- [ ] T-053 – SendEnrollmentConfirmedEmail mailable
-- [ ] T-054 – GenerateCertificateJob (dompdf, queued)
-- [ ] T-055 – Secure document/certificate download routes
-- [ ] T-056 – ProcessPaymentApproval action
+- [x] T-051 – SendEnrollmentReceivedEmail mailable
+- [x] T-052 – SendEnrollmentApprovedEmail mailable
+- [x] T-053 – SendEnrollmentConfirmedEmail mailable
+- [x] T-054 – GenerateCertificateJob (dompdf, queued)
+- [x] T-055 – Secure document/certificate download routes
+- [x] T-056 – ProcessPaymentApproval action
 
 ---
 
