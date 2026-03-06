@@ -12,8 +12,9 @@
 */
 
 pest()->extend(Tests\TestCase::class)
- // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
-    ->in('Feature');
+    ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    ->beforeEach(fn () => $this->seed(\Database\Seeders\RoleSeeder::class))
+    ->in('Feature', 'Unit');
 
 /*
 |--------------------------------------------------------------------------

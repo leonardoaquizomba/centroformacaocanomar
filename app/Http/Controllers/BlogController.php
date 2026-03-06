@@ -17,7 +17,7 @@ class BlogController extends Controller
 
         $categories = PostCategory::query()
             ->withCount(['posts' => fn ($q) => $q->where('is_published', true)])
-            ->having('posts_count', '>', 0)
+            ->whereHas('posts', fn ($q) => $q->where('is_published', true))
             ->get();
 
         return view('pages.blog.index', compact('posts', 'categories'));

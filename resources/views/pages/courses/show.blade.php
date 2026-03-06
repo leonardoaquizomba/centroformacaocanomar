@@ -33,11 +33,11 @@
                         </div>
                         <div class="flex items-center gap-2 text-slate-300 text-sm">
                             <i class="bi bi-bar-chart text-primary-400 text-lg"></i>
-                            <span>Nível <strong class="text-white">{{ ucfirst($course->level) }}</strong></span>
+                            <span>Nível <strong class="text-white">{{ $course->level->getLabel() }}</strong></span>
                         </div>
                         <div class="flex items-center gap-2 text-slate-300 text-sm">
                             <i class="bi bi-laptop text-primary-400 text-lg"></i>
-                            <span><strong class="text-white">{{ match($course->modality) { 'presencial' => 'Presencial', 'online' => 'Online', default => 'Misto' } }}</strong></span>
+                            <span><strong class="text-white">{{ $course->modality->getLabel() }}</strong></span>
                         </div>
                         <div class="flex items-center gap-2 text-slate-300 text-sm">
                             <i class="bi bi-patch-check text-primary-400 text-lg"></i>
@@ -121,7 +121,7 @@
                                             <span><i class="bi bi-calendar3 mr-1.5 text-primary-400"></i>{{ $class->start_date?->format('d/m/Y') }} – {{ $class->end_date?->format('d/m/Y') }}</span>
                                             <span><i class="bi bi-people mr-1.5 text-primary-400"></i>{{ $class->max_students }} vagas</span>
                                             @foreach ($class->schedules as $sched)
-                                            <span><i class="bi bi-clock mr-1.5 text-primary-400"></i>{{ ucfirst($sched->day_of_week) }} {{ \Carbon\Carbon::parse($sched->start_time)->format('H:i') }}–{{ \Carbon\Carbon::parse($sched->end_time)->format('H:i') }}</span>
+                                            <span><i class="bi bi-clock mr-1.5 text-primary-400"></i>{{ $sched->day_of_week->getLabel() }} {{ \Carbon\Carbon::parse($sched->start_time)->format('H:i') }}–{{ \Carbon\Carbon::parse($sched->end_time)->format('H:i') }}</span>
                                             @endforeach
                                         </div>
                                     </div>
@@ -145,11 +145,11 @@
                             </li>
                             <li class="flex items-center justify-between">
                                 <span class="text-slate-500 flex items-center gap-2"><i class="bi bi-bar-chart text-primary-400"></i>Nível</span>
-                                <span class="font-semibold text-secondary-900">{{ ucfirst($course->level) }}</span>
+                                <span class="font-semibold text-secondary-900">{{ $course->level->getLabel() }}</span>
                             </li>
                             <li class="flex items-center justify-between">
                                 <span class="text-slate-500 flex items-center gap-2"><i class="bi bi-laptop text-primary-400"></i>Modalidade</span>
-                                <span class="font-semibold text-secondary-900">{{ match($course->modality) { 'presencial' => 'Presencial', 'online' => 'Online', default => 'Misto' } }}</span>
+                                <span class="font-semibold text-secondary-900">{{ $course->modality->getLabel() }}</span>
                             </li>
                             <li class="flex items-center justify-between">
                                 <span class="text-slate-500 flex items-center gap-2"><i class="bi bi-patch-check text-primary-400"></i>Certificação</span>

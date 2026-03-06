@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\PaymentMethod;
+use App\Enums\PaymentStatus;
+use App\Models\Enrollment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +20,10 @@ class PaymentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'enrollment_id' => Enrollment::factory(),
+            'amount' => $this->faker->numberBetween(10000, 500000),
+            'method' => PaymentMethod::Transferencia,
+            'status' => PaymentStatus::Pendente,
         ];
     }
 }

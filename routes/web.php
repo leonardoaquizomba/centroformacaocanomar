@@ -24,6 +24,8 @@ Route::get('/noticias/{slug}', [BlogController::class, 'show'])->name('blog.show
 Route::get('/verificar-certificado', [CertificateVerificationController::class, 'index'])->name('certificate.verify');
 Route::post('/verificar-certificado', [CertificateVerificationController::class, 'verify'])->name('certificate.verify.check');
 
+Route::get('/login', fn () => redirect('/admin/login'))->name('login');
+
 Route::middleware('auth')->group(function (): void {
     Route::get('/download/certificado/{certificate}', [SecureDownloadController::class, 'certificate'])->name('download.certificate');
     Route::get('/download/documento/{document}', [SecureDownloadController::class, 'enrollmentDocument'])->name('download.document');
