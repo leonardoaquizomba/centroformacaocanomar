@@ -112,7 +112,7 @@
                         </div>
                         <div class="absolute top-3 right-3">
                             <span class="bg-white/90 text-secondary-900 text-xs font-bold px-3 py-1 rounded-full">
-                                {{ match($course->modality) { 'presencial' => 'Presencial', 'online' => 'Online', default => 'Misto' } }}
+                                {{ $course->modality->getLabel() }}
                             </span>
                         </div>
                     </div>
@@ -127,7 +127,7 @@
 
                         <div class="flex flex-wrap gap-3 text-xs text-slate-400 mb-4">
                             <span class="flex items-center gap-1"><i class="bi bi-clock text-primary-400"></i> {{ $course->duration_hours }}h</span>
-                            <span class="flex items-center gap-1"><i class="bi bi-bar-chart text-primary-400"></i> {{ ucfirst($course->level) }}</span>
+                            <span class="flex items-center gap-1"><i class="bi bi-bar-chart text-primary-400"></i> {{ $course->level->getLabel() }}</span>
                             <span class="flex items-center gap-1"><i class="bi bi-patch-check text-primary-400"></i> Certificado</span>
                         </div>
 

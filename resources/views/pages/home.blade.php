@@ -197,7 +197,7 @@
                             </span>
                             <span class="flex items-center gap-1.5">
                                 <i class="bi bi-bar-chart text-primary-400"></i>
-                                {{ ucfirst($course->level) }}
+                                {{ $course->level->getLabel() }}
                             </span>
                             <span class="flex items-center gap-1.5">
                                 <i class="bi bi-patch-check text-primary-400"></i>
