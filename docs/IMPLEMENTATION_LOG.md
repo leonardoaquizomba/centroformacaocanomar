@@ -1,0 +1,38 @@
+# CANOMAR – Implementation Log
+
+---
+
+## 2026-03-06 – Phase 2: Filament Admin Panel (T-015 to T-026)
+
+**Tasks:** T-015, T-016, T-017, T-018, T-019, T-020, T-021, T-022, T-023, T-024, T-025, T-026
+
+**What was done:**
+- Created 10 Filament admin resources with Portuguese labels (Schemas + Tables pattern):
+  - CourseCategoryResource, CourseResource, CourseClassResource (with Schedule repeater)
+  - EnrollmentResource (approve/reject actions), PaymentResource (mark-as-paid action)
+  - CertificateResource, PostResource, ContactMessageResource (read-only inbox)
+  - TestimonialResource, UserResource (with Spatie roles select)
+- Fixed PHP 8.4 property type invariance: `$navigationGroup` must use `string|UnitEnum|null` with explicit `use UnitEnum;` import (not `?string`)
+- Created `StatsOverview` widget with 4 stats: total students, active courses, monthly enrollments, monthly revenue
+
+---
+
+## 2026-03-06 – Phase 1: Foundation & Domain Models
+
+**Tasks:** T-001 to T-014
+
+**What was done:**
+
+Created all 14 domain models with full Eloquent relationships, migrations with correct foreign keys and enums, factories with realistic fake data, and seeders. Specifically:
+
+- **14 migrations** covering: course_categories, courses, course_classes, schedules, student_profiles, teacher_profiles, enrollments, enrollment_documents, payments, certificates, post_categories, posts, contact_messages, testimonials
+- **14 Eloquent models** with fillable fields, casts, and typed relationship methods
+- **User model** extended with relationships to StudentProfile, TeacherProfile, Enrollment, Certificate, CourseClass
+- **Factories** for: CourseCategory, Course, Testimonial, StudentProfile, TeacherProfile, Enrollment, Payment, Post
+- **Seeders**: CourseCategorySeeder (6 categories), CourseSeeder (3 sample courses), RoleSeeder (roles: admin/professor/aluno + 3 test users)
+- **DatabaseSeeder** updated to orchestrate all seeders
+- Code formatted with `vendor/bin/pint --dirty`
+
+**Pending:** MySQL database must be running to execute `php artisan migrate:fresh --seed`
+
+---

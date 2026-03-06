@@ -1,0 +1,122 @@
+# CANOMAR – Task Backlog
+
+## Legend
+- `[x]` Completed
+- `[ ]` Pending
+- `[~]` In Progress
+
+---
+
+## PHASE 1 – Foundation & Domain Models
+
+- [x] T-001 – CourseCategory model + migration + factory + seeder
+- [x] T-002 – Course model + migration + factory + seeder
+- [x] T-003 – CourseClass model + migration + factory
+- [x] T-004 – Schedule model + migration
+- [x] T-005 – StudentProfile model + migration + factory
+- [x] T-006 – TeacherProfile model + migration + factory
+- [x] T-007 – Enrollment model + migration + factory
+- [x] T-008 – EnrollmentDocument model + migration
+- [x] T-009 – Payment model + migration + factory
+- [x] T-010 – Certificate model + migration
+- [x] T-011 – Post + PostCategory models + migrations + factories
+- [x] T-012 – ContactMessage model + migration
+- [x] T-013 – Testimonial model + migration + factory
+- [x] T-014 – RoleSeeder (admin, professor, aluno) + test users
+
+---
+
+## PHASE 2 – Filament Admin Panel
+
+- [ ] T-015 – CourseCategoryResource
+- [ ] T-016 – CourseResource
+- [ ] T-017 – CourseClassResource
+- [ ] T-018 – StudentResource
+- [ ] T-019 – TeacherResource
+- [ ] T-020 – EnrollmentResource (with approve/reject actions)
+- [ ] T-021 – PaymentResource (with mark-as-paid action)
+- [ ] T-022 – CertificateResource (with generate action)
+- [ ] T-023 – PostResource (blog CRUD)
+- [ ] T-024 – ContactMessageResource (inbox)
+- [ ] T-025 – TestimonialResource
+- [ ] T-026 – Admin Dashboard Widgets (TotalStudents, ActiveCourses, MonthlyEnrollments, MonthlyRevenue)
+
+---
+
+## PHASE 3 – Student & Teacher Portals (Filament Panels)
+
+- [ ] T-027 – StudentPanelProvider (path: /aluno)
+- [ ] T-028 – Student Dashboard widgets
+- [ ] T-029 – MyEnrollmentsResource (student view)
+- [ ] T-030 – MyCertificatesResource (student download)
+- [ ] T-031 – MaterialsResource (student download)
+- [ ] T-032 – GradesResource (student view)
+- [ ] T-033 – MyCalendarPage (Livewire, student schedules)
+- [ ] T-034 – Student profile page
+- [ ] T-035 – TeacherPanelProvider (path: /professor)
+- [ ] T-036 – Teacher Dashboard widgets
+- [ ] T-037 – MyClassesResource (teacher view)
+- [ ] T-038 – AttendanceResource
+- [ ] T-039 – GradeEntryResource
+- [ ] T-040 – MaterialUploadResource
+- [ ] T-041 – ClassReportPage
+
+---
+
+## PHASE 4 – Public Website
+
+- [ ] T-042 – Responsive layout (navbar, footer, social links)
+- [ ] T-043 – Home page (hero, featured courses, stats, testimonials, blog posts)
+- [ ] T-044 – Courses catalog with Livewire search + filters
+- [ ] T-045 – Course detail page
+- [ ] T-046 – Online enrollment multi-step Livewire form
+- [ ] T-047 – About Us page
+- [ ] T-048 – Contacts page (Google Maps + contact form + CAPTCHA)
+- [ ] T-049 – Blog/News list and post detail
+- [ ] T-050 – Certificate verification page
+
+---
+
+## PHASE 5 – Business Logic & Automation
+
+- [ ] T-051 – SendEnrollmentReceivedEmail mailable
+- [ ] T-052 – SendEnrollmentApprovedEmail mailable
+- [ ] T-053 – SendEnrollmentConfirmedEmail mailable
+- [ ] T-054 – GenerateCertificateJob (dompdf, queued)
+- [ ] T-055 – Secure document/certificate download routes
+- [ ] T-056 – ProcessPaymentApproval action
+
+---
+
+## PHASE 6 – Security & Configuration
+
+- [ ] T-057 – Filament Shield policies for all resources
+- [ ] T-058 – Form Request validation classes
+- [ ] T-059 – Private storage disk configuration
+- [ ] T-060 – Google Analytics integration
+- [ ] T-061 – Queue + schedule configuration
+
+---
+
+## PHASE 7 – Tests
+
+- [ ] T-062 – Feature: enrollment flow
+- [ ] T-063 – Feature: certificate generation job
+- [ ] T-064 – Feature: public pages
+- [ ] T-065 – Feature: admin Filament resources
+- [ ] T-066 – Unit: models and business logic
+
+---
+
+## PHASE 8 – Advanced Features (Post-MVP)
+
+- [ ] T-067 – Multilingual (pt/en) with URL prefixes
+- [ ] T-068 – Internal messaging system
+- [ ] T-069 – In-app notifications
+- [ ] T-070 – 2FA for student portal
+
+---
+
+## Known Issues & Technical Debt
+
+_None at this time._

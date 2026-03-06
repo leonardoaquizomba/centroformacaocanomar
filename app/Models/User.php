@@ -20,7 +20,8 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements FilamentUser, HasAppAuthentication, HasEmailAuthentication, MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, HasRoles, Notifiable;
+
     use InteractsWithAppAuthentication, InteractsWithAppAuthenticationRecovery, InteractsWithEmailAuthentication;
 
     /**
@@ -60,5 +61,35 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
+    }
+
+    /** @return \Illuminate\Database\Eloquent\Relations\HasOne<StudentProfile, $this> */
+    public function studentProfile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(StudentProfile::class);
+    }
+
+    /** @return \Illuminate\Database\Eloquent\Relations\HasOne<TeacherProfile, $this> */
+    public function teacherProfile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(TeacherProfile::class);
+    }
+
+    /** @return \Illuminate\Database\Eloquent\Relations\HasMany<Enrollment, $this> */
+    public function enrollments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    /** @return \Illuminate\Database\Eloquent\Relations\HasMany<Certificate, $this> */
+    public function certificates(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Certificate::class);
+    }
+
+    /** @return \Illuminate\Database\Eloquent\Relations\HasMany<CourseClass, $this> */
+    public function taughtClasses(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(CourseClass::class, 'teacher_id');
     }
 }
