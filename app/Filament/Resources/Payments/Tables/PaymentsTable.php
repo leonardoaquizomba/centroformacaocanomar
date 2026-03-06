@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Payments\Tables;
 
+use App\Actions\ProcessPaymentApproval;
 use App\Models\Payment;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -84,12 +85,8 @@ class PaymentsTable
                     ->modalDescription('Confirma que este pagamento foi efectuado?')
                     ->modalSubmitActionLabel('Sim, confirmar')
                     ->visible(fn (Payment $record): bool => $record->status === 'pendente')
-                    ->action(function (Payment $record): void {
-                        $record->update([
-                            'status' => 'pago',
-                            'paid_at' => now(),
-                        ]);
-                        $record->enrollment->update(['status' => 'matriculado']);
+                    ->action(function (Payment $record, ProcessPaymentApproval $action): void {
+                        $action->execute($record);
                     }),
                 EditAction::make(),
             ])

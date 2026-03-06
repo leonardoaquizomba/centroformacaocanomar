@@ -2,9 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Mail\SendEnrollmentReceivedEmail;
 use App\Models\Course;
 use App\Models\CourseClass;
 use App\Models\Enrollment;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -86,13 +88,15 @@ class EnrollmentForm extends Component
         }
 
         // Create enrollment
-        Enrollment::create([
+        $enrollment = Enrollment::create([
             'user_id' => $user->id,
             'course_id' => $this->course->id,
             'course_class_id' => $this->courseClassId,
             'status' => 'pendente',
             'notes' => $this->notes ?: null,
         ]);
+
+        Mail::to($user->email)->queue(new SendEnrollmentReceivedEmail($enrollment->load(['user', 'course', 'courseClass'])));
 
         $this->submitted = true;
     }

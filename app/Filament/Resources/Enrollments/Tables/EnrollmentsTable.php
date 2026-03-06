@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Enrollments\Tables;
 
+use App\Mail\SendEnrollmentApprovedEmail;
 use App\Models\Enrollment;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -11,6 +12,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class EnrollmentsTable
 {
@@ -78,6 +80,7 @@ class EnrollmentsTable
                             'approved_at' => now(),
                             'approved_by' => Auth::id(),
                         ]);
+                        Mail::to($record->user->email)->queue(new SendEnrollmentApprovedEmail($record));
                     }),
                 Action::make('reject')
                     ->label('Rejeitar')
