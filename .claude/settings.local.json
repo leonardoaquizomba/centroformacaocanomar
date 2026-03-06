@@ -45,7 +45,16 @@
       "Bash(php artisan make:class Actions/ProcessPaymentApproval --no-interaction)",
       "Bash(php artisan make:request StoreContactMessageRequest --no-interaction)",
       "Bash(php artisan make:request StoreEnrollmentRequest --no-interaction)",
-      "mcp__laravel-boost__list-available-env-vars"
+      "mcp__laravel-boost__list-available-env-vars",
+      "Bash(php artisan make:test --pest EnrollmentFlowTest --no-interaction)",
+      "Bash(php artisan make:test --pest CertificateJobTest --no-interaction)",
+      "Bash(php artisan make:test --pest PublicPagesTest --no-interaction)",
+      "Bash(php artisan make:test --pest AdminResourcesTest --no-interaction)",
+      "Bash(php artisan make:test --pest --unit ModelsTest --no-interaction)",
+      "Bash(php artisan make:factory PostCategoryFactory --model=PostCategory --no-interaction)",
+      "Bash(php artisan test --compact)",
+      "Bash(grep -n \"status\\\\|check\\\\|enum\" c:/Users/leona/Herd/centroformacaocanomar/database/migrations/*enrollments*)",
+      "Bash(php artisan test)"
     ],
     "additionalDirectories": [
       "c:\\Users\\leona\\.claude\\projects\\c--Users-leona-Herd-centroformacaocanomar\\memory"
