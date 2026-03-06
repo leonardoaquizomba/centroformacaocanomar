@@ -2,6 +2,19 @@
 
 ---
 
+## 2026-03-07 – Student Calendar & Profile Pages (T-033, T-034)
+
+**Tasks:** T-033, T-034
+
+**What was done:**
+
+- **`MyCalendarPage`** (`app/Filament/Aluno/Pages/MyCalendarPage.php`): Filament custom page in the `/aluno` panel; `mount()` loads enrolled active `CourseClass` schedules via `Auth::user()->enrollments()->with(['courseClass.schedules', 'courseClass.course'])`, groups them by `DayOfWeek` enum value. Blade view (`resources/views/filament/aluno/pages/my-calendar-page.blade.php`): responsive 7-column weekly grid with Alpine.js today-highlight; empty state when no active enrollments. Route: `/aluno/my-calendar-page`.
+- **`EditStudentProfile`** (`app/Filament/Aluno/Pages/EditStudentProfile.php`): Filament custom page with a 2-section form (Dados da Conta — read-only name/email; Dados Pessoais — photo, BI, DOB, phone, address); `mount()` pre-fills from `StudentProfile`; `save()` uses `updateOrCreate` to create or update the profile row; header `Action::make('save')` triggers the save. Route: `/aluno/edit-student-profile`.
+- **Pest feature tests** (`tests/Feature/AlunoPortalPagesTest.php`): 9 tests — page access (200 for aluno, 403 for admin), empty state, schedule data display, profile pre-fill, profile save, updateOrCreate upsert — all passing.
+- `vendor/bin/pint --dirty` applied; all tests passing.
+
+---
+
 ## 2026-03-06 – Newsletter Subscription (T-067)
 
 **Task:** T-067

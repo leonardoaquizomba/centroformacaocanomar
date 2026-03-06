@@ -52,8 +52,8 @@
 - [x] T-030 – MyCertificatesResource (student download)
 - [x] T-031 – MaterialsResource (student download)
 - [x] T-032 – GradesResource (student view)
-- [ ] T-033 – MyCalendarPage (Livewire, student schedules)
-- [ ] T-034 – Student profile page (extended)
+- [x] T-033 – MyCalendarPage (Livewire, student schedules)
+- [x] T-034 – Student profile page (extended)
 - [x] T-035 – TeacherPanelProvider (path: /professor)
 - [x] T-036 – Teacher Dashboard widgets
 - [x] T-037 – MyClassesResource (teacher view)
