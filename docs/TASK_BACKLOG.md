@@ -91,11 +91,11 @@
 
 ## PHASE 6 – Security & Configuration
 
-- [ ] T-057 – Filament Shield policies for all resources
-- [ ] T-058 – Form Request validation classes
-- [ ] T-059 – Private storage disk configuration
-- [ ] T-060 – Google Analytics integration
-- [ ] T-061 – Queue + schedule configuration
+- [ ] T-057 – Filament Shield policies for all resources (deferred)
+- [x] T-058 – Form Request validation classes
+- [x] T-059 – Private storage disk configuration
+- [x] T-060 – Google Analytics integration
+- [x] T-061 – Queue + schedule configuration
 
 ---
 

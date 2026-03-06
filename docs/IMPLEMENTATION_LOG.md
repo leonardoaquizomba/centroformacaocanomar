@@ -2,6 +2,20 @@
 
 ---
 
+## 2026-03-06 – Phase 6: Security & Configuration (T-058 to T-061, T-057 deferred)
+
+**Tasks:** T-058, T-059, T-060, T-061
+
+**What was done:**
+
+- **T-058 Form Requests**: `StoreContactMessageRequest`, `StoreEnrollmentRequest` (with Portuguese error messages); `VerifyCertificateRequest` wired into `CertificateVerificationController` replacing inline `$request->validate()`
+- **T-059 Private storage disk**: explicit `private` disk in `config/filesystems.php` pointing to `storage/app/private`; `certificates/` subdirectory created
+- **T-060 Google Analytics**: `GOOGLE_ANALYTICS_ID` env var; `config/services.php` entry; conditional gtag v4 snippet injected into layout `<head>`
+- **T-061 Queue/schedule**: `QUEUE_CONNECTION=database` set in `.env`; `routes/console.php` schedules `queue:prune-batches` daily and `queue:prune-failed` weekly
+- **T-057 skipped** (Filament Shield) — deferred per user instruction
+
+---
+
 ## 2026-03-06 – Phase 5: Business Logic & Automation (T-051 to T-056)
 
 **Tasks:** T-051 to T-056
