@@ -4,18 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Certificate;
 use App\Models\EnrollmentDocument;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SecureDownloadController extends Controller
 {
-    public function certificate(Request $request, Certificate $certificate): StreamedResponse
+    public function certificate(Certificate $certificate): StreamedResponse
     {
-        abort_unless(
-            $request->user()?->id === $certificate->user_id || $request->user()?->hasRole('admin'),
-            403
-        );
+        Gate::authorize('download', $certificate);
 
         abort_unless(
             $certificate->file_path && Storage::disk('private')->exists($certificate->file_path),
@@ -27,12 +24,9 @@ class SecureDownloadController extends Controller
         return Storage::disk('private')->download($certificate->file_path, $filename);
     }
 
-    public function enrollmentDocument(Request $request, EnrollmentDocument $document): StreamedResponse
+    public function enrollmentDocument(EnrollmentDocument $document): StreamedResponse
     {
-        abort_unless(
-            $request->user()?->id === $document->enrollment->user_id || $request->user()?->hasRole('admin'),
-            403
-        );
+        Gate::authorize('download', $document);
 
         abort_unless(
             $document->file_path && Storage::disk('private')->exists($document->file_path),
