@@ -73,7 +73,24 @@
       "Bash(xargs grep -l \"cors\\\\|CORS\")",
       "Bash(composer.json)",
       "mcp__laravel-boost__database-schema",
-      "Bash(grep -r \"sanitize\\\\|escape\\\\|htmlspecialchars\\\\|$_GET\\\\|$_POST\\\\|$_REQUEST\" \"c:/Users/leona/Herd/centroformacaocanomar/app\" --include=\"*.php\")"
+      "Bash(grep -r \"sanitize\\\\|escape\\\\|htmlspecialchars\\\\|$_GET\\\\|$_POST\\\\|$_REQUEST\" \"c:/Users/leona/Herd/centroformacaocanomar/app\" --include=\"*.php\")",
+      "Bash(git stash)",
+      "Bash(php artisan test --compact --filter=\"admin can list\")",
+      "Bash(php artisan make:mail SendNewsletterWelcomeEmail --no-interaction)",
+      "Bash(php artisan make:policy EnrollmentDocumentPolicy --model=EnrollmentDocument --no-interaction)",
+      "Bash(php artisan make:test --pest SecureDownloadTest --no-interaction)",
+      "Bash(php artisan make:factory CertificateFactory --model=Certificate --no-interaction)",
+      "Bash(php artisan make:factory EnrollmentDocumentFactory --model=EnrollmentDocument --no-interaction)",
+      "Bash(php artisan test --compact --filter=SecureDownloadTest)",
+      "Bash(grep -n \"$course\\\\|$post\\\\|$testimonial\\\\|$category\" c:/Users/leona/Herd/centroformacaocanomar/resources/views/pages/home.blade.php)",
+      "Bash(php artisan make:seeder CourseClassSeeder --no-interaction)",
+      "Bash(php artisan make:seeder PostCategorySeeder --no-interaction)",
+      "Bash(php artisan make:seeder BlogSeeder --no-interaction)",
+      "Bash(php artisan make:seeder TestimonialSeeder --no-interaction)",
+      "Bash(php artisan make:seeder StudentSeeder --no-interaction)",
+      "Bash(php artisan migrate:fresh --seed --no-interaction)",
+      "mcp__laravel-boost__tinker",
+      "mcp__laravel-boost__browser-logs"
     ],
     "additionalDirectories": [
       "c:\\Users\\leona\\.claude\\projects\\c--Users-leona-Herd-centroformacaocanomar\\memory"
