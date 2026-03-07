@@ -59,7 +59,21 @@
       "Bash(php artisan make:livewire NewsletterForm --no-interaction)",
       "Bash(php artisan make:controller NewsletterController --no-interaction)",
       "Bash(php artisan make:test NewsletterTest --pest --no-interaction)",
-      "Bash(php artisan test --compact --filter=NewsletterTest)"
+      "Bash(php artisan test --compact --filter=NewsletterTest)",
+      "mcp__laravel-boost__search-docs",
+      "Bash(xargs grep -l \"protected string $view\")",
+      "Bash(php artisan test --compact --filter=AlunoPortalPagesTest)",
+      "Bash(php artisan route:list --path=aluno)",
+      "Bash(xargs grep -l \"PanelProvider\")",
+      "Bash(xargs grep -l \"Action\\\\|Infolist\")",
+      "Bash(xargs grep -l \"infolist\\\\|Infolist\")",
+      "Bash(php artisan test --compact --filter=ProfessorPortalPagesTest)",
+      "mcp__laravel-boost__application-info",
+      "Bash(ls -la c:/Users/leona/Herd/centroformacaocanomar/.env*)",
+      "Bash(xargs grep -l \"cors\\\\|CORS\")",
+      "Bash(composer.json)",
+      "mcp__laravel-boost__database-schema",
+      "Bash(grep -r \"sanitize\\\\|escape\\\\|htmlspecialchars\\\\|$_GET\\\\|$_POST\\\\|$_REQUEST\" \"c:/Users/leona/Herd/centroformacaocanomar/app\" --include=\"*.php\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\leona\\.claude\\projects\\c--Users-leona-Herd-centroformacaocanomar\\memory"

@@ -27,7 +27,7 @@
     - If in single-task mode, stop after the commit and log update.
 
 # Fail-Safe Rules
-    - Never skip updating the Implementation Log and any other necessary documents.
+    - Never skip updating the Implementation Log, Memory and any other necessary documents.
     - Never bundle unrelated tasks into a single commit.
     - Stop immediately if requirements are unclear or conflicting and log a request for clarification.
     - Always work incrementally, implementing one feature or fix at a time.
