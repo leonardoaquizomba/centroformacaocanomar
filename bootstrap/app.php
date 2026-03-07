@@ -16,5 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: ['throttle:60,1']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // Redirect gracefully when a signed URL is invalid or expired (e.g. tampered unsubscribe links).
+        $exceptions->render(function (\Illuminate\Routing\Exceptions\InvalidSignatureException $e) {
+            return redirect()->route('home')
+                ->with('error', 'Este link é inválido ou expirou. Por favor, utilize o link do email original.');
+        });
     })->create();

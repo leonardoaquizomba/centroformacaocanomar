@@ -2,6 +2,23 @@
 
 ---
 
+## 2026-03-07 – Newsletter Signed Unsubscribe URL (M4)
+
+**Task:** Security – M4 (OWASP)
+
+**What was done:**
+
+- **`SendNewsletterWelcomeEmail`** (`app/Mail/SendNewsletterWelcomeEmail.php`): queued mailable that accepts a `NewsletterSubscriber`; generates a signed unsubscribe URL via `URL::signedRoute()` in the constructor — HMAC prevents tampering with the token in the URL.
+- **Email view** (`resources/views/emails/newsletter/welcome.blade.php`): welcome confirmation email with a signed unsubscribe link in the footer, matching existing email styling.
+- **`NewsletterForm`** (`app/Livewire/NewsletterForm.php`): queues `SendNewsletterWelcomeEmail` after subscription; only sends on `wasRecentlyCreated` or re-subscription (`wasChanged('unsubscribed_at')`) to avoid spamming existing subscribers.
+- **Route** (`routes/web.php`): `newsletter.unsubscribe` now requires `['signed', 'throttle:10,1']` middleware — unsigned URLs are rejected.
+- **`bootstrap/app.php`**: `InvalidSignatureException` caught in `withExceptions()` and redirected to home with a user-friendly flash message instead of a raw 403.
+- **Tests** (`tests/Feature/NewsletterTest.php`): 9 tests — subscribe queues welcome email, unsubscribe via signed URL, tampered unsigned URL rejected (subscriber remains active), invalid token with signed URL, compact mode — all passing.
+
+**Result:** 84/86 tests passing.
+
+---
+
 ## 2026-03-07 – OWASP Security Audit & Remediation
 
 **Task:** Security audit (OWASP Top Ten)

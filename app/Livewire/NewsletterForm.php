@@ -2,7 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Mail\SendNewsletterWelcomeEmail;
 use App\Models\NewsletterSubscriber;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -24,7 +26,7 @@ class NewsletterForm extends Component
             'name' => ['nullable', 'string', 'max:100'],
         ]);
 
-        NewsletterSubscriber::updateOrCreate(
+        $subscriber = NewsletterSubscriber::updateOrCreate(
             ['email' => $this->email],
             [
                 'name' => $this->name ?: null,
@@ -33,6 +35,11 @@ class NewsletterForm extends Component
                 'unsubscribed_at' => null,
             ]
         );
+
+        // Send welcome email with signed unsubscribe URL only on fresh subscription or re-subscription
+        if ($subscriber->wasRecentlyCreated || $subscriber->wasChanged('unsubscribed_at')) {
+            Mail::to($subscriber->email)->queue(new SendNewsletterWelcomeEmail($subscriber));
+        }
 
         $this->subscribed = true;
     }

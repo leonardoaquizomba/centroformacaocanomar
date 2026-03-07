@@ -25,8 +25,8 @@ Route::get('/noticias/{slug}', [BlogController::class, 'show'])->name('blog.show
 Route::get('/verificar-certificado', [CertificateVerificationController::class, 'index'])->name('certificate.verify');
 Route::post('/verificar-certificado', [CertificateVerificationController::class, 'verify'])->name('certificate.verify.check')->middleware('throttle:5,1');
 
-// Note: when newsletter emails are implemented, generate this URL with URL::signedRoute() and add 'signed' middleware here.
-Route::get('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe')->middleware('throttle:10,1');
+// Signed URL — prevents token tampering; generated via URL::signedRoute() in SendNewsletterWelcomeEmail.
+Route::get('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe')->middleware(['signed', 'throttle:10,1']);
 
 Route::get('/login', fn () => redirect('/admin/login'))->name('login');
 

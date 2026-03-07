@@ -1,10 +1,15 @@
 <?php
 
 use App\Livewire\NewsletterForm;
+use App\Mail\SendNewsletterWelcomeEmail;
 use App\Models\NewsletterSubscriber;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 use Livewire\Livewire;
 
 it('can subscribe with a valid email', function (): void {
+    Mail::fake();
+
     Livewire::test(NewsletterForm::class)
         ->set('email', 'subscriber@example.com')
         ->set('name', 'João Silva')
@@ -12,6 +17,7 @@ it('can subscribe with a valid email', function (): void {
         ->assertSet('subscribed', true);
 
     expect(NewsletterSubscriber::where('email', 'subscriber@example.com')->exists())->toBeTrue();
+    Mail::assertQueued(SendNewsletterWelcomeEmail::class);
 });
 
 it('stores the token and subscribed_at when subscribing', function (): void {
@@ -55,18 +61,31 @@ it('requires a valid email address', function (): void {
         ->assertHasErrors(['email']);
 });
 
-it('can unsubscribe via token', function (): void {
+it('can unsubscribe via signed URL', function (): void {
     $subscriber = NewsletterSubscriber::factory()->create();
 
-    $this->get(route('newsletter.unsubscribe', $subscriber->token))
-        ->assertRedirect(route('home'));
+    $signedUrl = URL::signedRoute('newsletter.unsubscribe', ['token' => $subscriber->token]);
+
+    $this->get($signedUrl)->assertRedirect(route('home'));
 
     expect($subscriber->fresh()->unsubscribed_at)->not->toBeNull();
 });
 
-it('handles invalid unsubscribe token gracefully', function (): void {
-    $this->get(route('newsletter.unsubscribe', 'invalid-token'))
+it('rejects unsubscribe with tampered unsigned URL', function (): void {
+    $subscriber = NewsletterSubscriber::factory()->create();
+
+    // Plain route() without signature must be rejected by the signed middleware
+    $this->get(route('newsletter.unsubscribe', $subscriber->token))
         ->assertRedirect(route('home'));
+
+    // Subscriber should NOT be unsubscribed since the signature was missing
+    expect($subscriber->fresh()->unsubscribed_at)->toBeNull();
+});
+
+it('handles invalid unsubscribe token gracefully', function (): void {
+    $signedUrl = URL::signedRoute('newsletter.unsubscribe', ['token' => 'invalid-token']);
+
+    $this->get($signedUrl)->assertRedirect(route('home'));
 });
 
 it('compact mode sets the compact property', function (): void {
