@@ -60,7 +60,7 @@
 - [x] T-038 – AttendanceResource
 - [x] T-039 – GradeEntryResource
 - [x] T-040 – MaterialUploadResource
-- [ ] T-041 – ClassReportPage
+- [x] T-041 – ClassReportPage
 
 ---
 

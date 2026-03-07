@@ -2,6 +2,19 @@
 
 ---
 
+## 2026-03-07 – Teacher Class Report Page (T-041)
+
+**Task:** T-041
+
+**What was done:**
+
+- **`ClassReportPage`** (`app/Filament/Professor/Pages/ClassReportPage.php`): Filament custom page in the `/professor` panel; `mount()` auto-selects the most recent class taught by the authenticated teacher; `updatedSelectedClassId()` reloads the report when the dropdown changes; `loadReport()` aggregates enrollment, attendance, and grade data per student, scoped to `teacher_id = Auth::id()` to prevent cross-teacher data access.
+- **View** (`resources/views/filament/professor/pages/class-report-page.blade.php`): class selector dropdown (Livewire `wire:model.live`); 4-stat header row (course, class, period, enrolled/slots); data table listing each student with their enrollment status, total sessions, present/absent/late counts, colour-coded attendance %, grade count and average; empty states for no class selected and no enrolled students.
+- **Pest feature tests** (`tests/Feature/ProfessorPortalPagesTest.php`): 9 tests — page access (200 teacher / 403 non-teacher), no-class empty state, auto-select on mount, class info display, enrolled student listing, attendance summary, grade average, and cross-teacher isolation — all passing.
+- `vendor/bin/pint --dirty` applied; all tests passing.
+
+---
+
 ## 2026-03-07 – Student Calendar & Profile Pages (T-033, T-034)
 
 **Tasks:** T-033, T-034
