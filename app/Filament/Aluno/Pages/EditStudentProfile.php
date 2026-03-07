@@ -68,6 +68,7 @@ class EditStudentProfile extends Page
                         FileUpload::make('photo_path')
                             ->label('Foto de Perfil')
                             ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->disk('public')
                             ->directory('student-photos')
                             ->avatar()

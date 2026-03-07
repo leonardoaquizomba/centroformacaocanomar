@@ -41,6 +41,7 @@ class PostForm
                         FileUpload::make('image')
                             ->label('Imagem de Capa')
                             ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->directory('posts'),
                         Textarea::make('excerpt')
                             ->label('Resumo')

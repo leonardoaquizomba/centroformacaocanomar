@@ -121,4 +121,6 @@
 
 ## Known Issues & Technical Debt
 
-_None at this time._
+- **AdminResourcesTest 403 (pre-existing)**: `admin can list courses/enrollments/payments` tests fail with 403 in the test environment — Filament Shield permissions are not being seeded correctly for the test admin user. Requires investigating `RoleSeeder` in tests or `sync-permissions` in `TestCase::setUp`.
+- **Newsletter signed URLs (future)**: When newsletter emails are implemented, generate unsubscribe links with `URL::signedRoute()` and add `->middleware('signed')` to `routes/web.php:newsletter.unsubscribe`.
+- **M5 – Laravel Policies**: No Policy classes defined for `Enrollment`, `Grade`, `Certificate`. Consider `php artisan make:policy EnrollmentPolicy --model=Enrollment` and adding `authorize()` checks in controllers.

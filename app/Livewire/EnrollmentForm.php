@@ -7,6 +7,8 @@ use App\Mail\SendEnrollmentReceivedEmail;
 use App\Models\Course;
 use App\Models\CourseClass;
 use App\Models\Enrollment;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -80,8 +82,13 @@ class EnrollmentForm extends Component
         // Create or find user by email
         $user = \App\Models\User::firstOrCreate(
             ['email' => $this->email],
-            ['name' => $this->name, 'password' => bcrypt(\Illuminate\Support\Str::random(16))]
+            ['name' => $this->name, 'password' => Hash::make(\Illuminate\Support\Str::random(16))]
         );
+
+        // Send email verification to newly created users so they can confirm their account and set a password
+        if ($user->wasRecentlyCreated) {
+            $user->sendEmailVerificationNotification();
+        }
 
         // Assign aluno role if not yet assigned
         if (! $user->hasRole('aluno')) {
@@ -95,6 +102,13 @@ class EnrollmentForm extends Component
             'course_class_id' => $this->courseClassId,
             'status' => EnrollmentStatus::Pendente,
             'notes' => $this->notes ?: null,
+        ]);
+
+        Log::channel('daily')->info('Enrollment created', [
+            'enrollment_id' => $enrollment->id,
+            'user_id' => $user->id,
+            'course_id' => $this->course->id,
+            'new_user' => $user->wasRecentlyCreated,
         ]);
 
         Mail::to($user->email)->queue(new SendEnrollmentReceivedEmail($enrollment->load(['user', 'course', 'courseClass'])));

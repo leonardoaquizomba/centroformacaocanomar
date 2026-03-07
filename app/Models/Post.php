@@ -65,6 +65,18 @@ class Post extends Model
         ];
     }
 
+    /**
+     * Sanitize post body on storage to prevent stored XSS.
+     * Strips dangerous tags and event handler attributes while preserving safe formatting HTML.
+     */
+    public function setBodyAttribute(string $value): void
+    {
+        $allowedTags = '<p><h1><h2><h3><h4><h5><h6><strong><em><u><s><a><ul><ol><li><blockquote><code><pre><br><hr><figure><figcaption><img><table><thead><tbody><tr><th><td>';
+        $stripped = strip_tags($value, $allowedTags);
+        // Strip event handler attributes (e.g. onerror=, onload=, onclick=)
+        $this->attributes['body'] = preg_replace('/\s+on\w+\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $stripped);
+    }
+
     /** @return \Illuminate\Database\Eloquent\Relations\BelongsTo<PostCategory, $this> */
     public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

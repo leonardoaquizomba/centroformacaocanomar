@@ -70,6 +70,7 @@ class MateriaisUploadResource extends Resource
                         ->disk('private')
                         ->directory('materials')
                         ->storeFileNamesIn('original_name')
+                        ->maxSize(102400) // 100 MB — prevents disk exhaustion attacks
                         ->acceptedFileTypes(['application/pdf', 'video/mp4', 'application/zip', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']),
                 ]),
         ]);

@@ -28,6 +28,7 @@ class TestimonialForm
                         FileUpload::make('photo_path')
                             ->label('Foto')
                             ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->directory('testimonials')
                             ->avatar(),
                         TextInput::make('order')

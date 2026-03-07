@@ -27,13 +27,16 @@ it('stores the token and subscribed_at when subscribing', function (): void {
         ->and($subscriber->unsubscribed_at)->toBeNull();
 });
 
-it('rejects duplicate active email', function (): void {
+it('silently succeeds on duplicate active email to prevent enumeration', function (): void {
+    // Security: we must not reveal whether an email already exists in the database.
+    // Duplicate submissions should succeed silently (OWASP A01 — Broken Access Control / information disclosure).
     NewsletterSubscriber::factory()->create(['email' => 'duplicate@example.com']);
 
     Livewire::test(NewsletterForm::class)
         ->set('email', 'duplicate@example.com')
         ->call('subscribe')
-        ->assertHasErrors(['email']);
+        ->assertHasNoErrors()
+        ->assertSet('subscribed', true);
 });
 
 it('allows resubscription after unsubscribing', function (): void {

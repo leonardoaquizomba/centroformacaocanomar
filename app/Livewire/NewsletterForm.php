@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\NewsletterSubscriber;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class NewsletterForm extends Component
@@ -19,16 +18,10 @@ class NewsletterForm extends Component
 
     public function subscribe(): void
     {
+        // Do not reveal whether an email already exists — prevents email enumeration (OWASP A01).
         $this->validate([
-            'email' => [
-                'required',
-                'email',
-                'max:255',
-                Rule::unique('newsletter_subscribers', 'email')->whereNull('unsubscribed_at'),
-            ],
+            'email' => ['required', 'email', 'max:255'],
             'name' => ['nullable', 'string', 'max:100'],
-        ], [
-            'email.unique' => 'Este e-mail já está subscrito à nossa newsletter.',
         ]);
 
         NewsletterSubscriber::updateOrCreate(

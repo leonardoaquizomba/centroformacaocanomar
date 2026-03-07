@@ -82,6 +82,7 @@ class CourseForm
                         FileUpload::make('image')
                             ->label('Imagem de Capa')
                             ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->directory('courses')
                             ->columnSpanFull(),
                         Toggle::make('is_active')

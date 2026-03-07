@@ -11,7 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Global web rate limit — prevents brute-force against login forms and public endpoints.
+        // 60 requests/minute per IP is generous for legitimate use but blocks automated attacks.
+        $middleware->web(append: ['throttle:60,1']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

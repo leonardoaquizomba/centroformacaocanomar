@@ -23,9 +23,10 @@ Route::get('/noticias', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/noticias/{slug}', [BlogController::class, 'show'])->name('blog.show');
 
 Route::get('/verificar-certificado', [CertificateVerificationController::class, 'index'])->name('certificate.verify');
-Route::post('/verificar-certificado', [CertificateVerificationController::class, 'verify'])->name('certificate.verify.check');
+Route::post('/verificar-certificado', [CertificateVerificationController::class, 'verify'])->name('certificate.verify.check')->middleware('throttle:5,1');
 
-Route::get('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
+// Note: when newsletter emails are implemented, generate this URL with URL::signedRoute() and add 'signed' middleware here.
+Route::get('/newsletter/unsubscribe/{token}', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe')->middleware('throttle:10,1');
 
 Route::get('/login', fn () => redirect('/admin/login'))->name('login');
 

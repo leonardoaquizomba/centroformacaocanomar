@@ -2,6 +2,31 @@
 
 ---
 
+## 2026-03-07 – OWASP Security Audit & Remediation
+
+**Task:** Security audit (OWASP Top Ten)
+
+**What was done:**
+
+Full OWASP Top Ten security audit performed. 3 critical, 4 high, 7 medium, and 3 low severity vulnerabilities identified and the following remediations applied:
+
+- **C1 – Stored XSS** (`app/Models/Post.php`): `setBodyAttribute` mutator strips dangerous tags (`<script>`, `<iframe>`, etc.) and event handler attributes (`onerror=`, `onload=`) on storage, so `{!! $post->body !!}` renders only sanitized HTML.
+- **C2 – APP_DEBUG disabled** (`.env`): `APP_DEBUG=false` prevents stack traces and DB queries being exposed on errors.
+- **C3 + M6 – Session security** (`.env`): `SESSION_ENCRYPT=true` and `SESSION_SECURE_COOKIE=true` enforce encrypted sessions and HTTPS-only cookies.
+- **H1 – Login rate limiting** (`bootstrap/app.php`): Global `throttle:60,1` on the web middleware group covers all Filament login routes. Admin panel additionally protected by MFA (EmailAuthentication + AppAuthentication).
+- **H2 – Public endpoint rate limiting** (`routes/web.php`): `throttle:5,1` on `POST /verificar-certificado`; `throttle:10,1` on `GET /newsletter/unsubscribe/{token}`.
+- **H3 – Email verification for enrollment users** (`app/Livewire/EnrollmentForm.php`): `sendEmailVerificationNotification()` called for newly created users; `bcrypt()` replaced with `Hash::make()`.
+- **H4 – Tinker moved to dev** (`composer.json`): `laravel/tinker` moved from `require` to `require-dev` to prevent REPL availability in production.
+- **M1 – SVG XSS blocked** (4 Filament upload fields): `->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])` added to `CourseForm`, `PostForm`, `TestimonialForm`, and `EditStudentProfile`.
+- **M3 – Email enumeration prevented** (`app/Livewire/NewsletterForm.php`): Removed revealing `email.unique` error message; duplicate submissions silently succeed via `updateOrCreate`.
+- **M7 – Audit logging** (`CertificateVerificationController`, `EnrollmentForm`): `Log::channel('daily')` records certificate verification attempts (with IP) and enrollment creation events.
+- **L3 – Upload size limit** (`MateriaisUploadResource`): `->maxSize(102400)` (100 MB) added to prevent disk exhaustion.
+- **Test updated** (`tests/Feature/NewsletterTest.php`): `'rejects duplicate active email'` → `'silently succeeds on duplicate active email to prevent enumeration'`.
+
+**Result:** 83/86 tests passing (3 pre-existing `AdminResourcesTest` failures from Filament Shield permissions — unrelated to this audit).
+
+---
+
 ## 2026-03-07 – Teacher Class Report Page (T-041)
 
 **Task:** T-041
