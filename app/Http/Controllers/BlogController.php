@@ -3,28 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\PostCategory;
 
 class BlogController extends Controller
 {
     public function index(): \Illuminate\View\View
     {
-        $activeCategory = request()->query('categoria');
-
-        $posts = Post::query()
-            ->with('category')
-            ->where('is_published', true)
-            ->when($activeCategory, fn ($q) => $q->whereHas('category', fn ($c) => $c->where('slug', $activeCategory)))
-            ->latest('published_at')
-            ->paginate(9)
-            ->appends(request()->query());
-
-        $categories = PostCategory::query()
-            ->withCount(['posts' => fn ($q) => $q->where('is_published', true)])
-            ->whereHas('posts', fn ($q) => $q->where('is_published', true))
-            ->get();
-
-        return view('pages.blog.index', compact('posts', 'categories', 'activeCategory'));
+        return view('pages.blog.index');
     }
 
     public function show(string $slug): \Illuminate\View\View
