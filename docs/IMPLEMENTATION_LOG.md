@@ -2,6 +2,22 @@
 
 ---
 
+## 2026-03-07 – Ownership Policies for Secure Downloads (M5)
+
+**Task:** Security – M5 (OWASP)
+
+**What was done:**
+
+- **`CertificatePolicy::download()`**: new method checking `$user->id === $certificate->user_id || $user->hasRole('admin')` — admins can download any certificate, students only their own.
+- **`EnrollmentDocumentPolicy`** (`app/Policies/EnrollmentDocumentPolicy.php`): new policy with a `download()` method that checks ownership via `$document->enrollment->user_id`.
+- **`SecureDownloadController`** (`app/Http/Controllers/SecureDownloadController.php`): replaced `abort_unless()` inline ownership checks with `Gate::authorize('download', $model)` — delegating authorization to the policies.
+- **Factories**: `CertificateFactory` and `EnrollmentDocumentFactory` created to support test setup.
+- **`SecureDownloadTest`** (`tests/Feature/SecureDownloadTest.php`): 7 tests — own certificate/document download (200), other user's download (403), admin download (200), missing file (404) — all passing.
+
+**Result:** 91/94 tests passing (3 pre-existing `AdminResourcesTest` failures unrelated to this change).
+
+---
+
 ## 2026-03-07 – Newsletter Signed Unsubscribe URL (M4)
 
 **Task:** Security – M4 (OWASP)

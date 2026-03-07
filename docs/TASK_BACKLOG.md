@@ -122,4 +122,3 @@
 ## Known Issues & Technical Debt
 
 - **AdminResourcesTest 403 (pre-existing)**: `admin can list courses/enrollments/payments` tests fail with 403 in the test environment — Filament Shield permissions are not being seeded correctly for the test admin user. Requires investigating `RoleSeeder` in tests or `sync-permissions` in `TestCase::setUp`.
-- **M5 – Laravel Policies**: No Policy classes defined for `Enrollment`, `Grade`, `Certificate`. Consider `php artisan make:policy EnrollmentPolicy --model=Enrollment` and adding `authorize()` checks in controllers.
