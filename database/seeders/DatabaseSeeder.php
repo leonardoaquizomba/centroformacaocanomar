@@ -12,6 +12,11 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             CourseCategorySeeder::class,
             CourseSeeder::class,
+            CourseClassSeeder::class,   // teachers + classes + schedules
+            PostCategorySeeder::class,
+            BlogSeeder::class,
+            TestimonialSeeder::class,
+            StudentSeeder::class,       // students + enrollments + payments + certificates
         ]);
     }
 }
