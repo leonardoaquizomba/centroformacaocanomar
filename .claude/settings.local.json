@@ -90,7 +90,12 @@
       "Bash(php artisan make:seeder StudentSeeder --no-interaction)",
       "Bash(php artisan migrate:fresh --seed --no-interaction)",
       "mcp__laravel-boost__tinker",
-      "mcp__laravel-boost__browser-logs"
+      "mcp__laravel-boost__browser-logs",
+      "Bash(php artisan make:livewire BlogCatalog --no-interaction)",
+      "Bash(php artisan make:livewire BlogCatalog --class --no-interaction)",
+      "Bash(php artisan test --compact --filter=PublicPages)",
+      "Bash(php artisan make:test --pest BlogCatalogTest --no-interaction)",
+      "Bash(php artisan test --compact --filter=BlogCatalogTest)"
     ],
     "additionalDirectories": [
       "c:\\Users\\leona\\.claude\\projects\\c--Users-leona-Herd-centroformacaocanomar\\memory"
