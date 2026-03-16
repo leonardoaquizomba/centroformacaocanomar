@@ -19,37 +19,91 @@
                 <div class="lg:col-span-2 space-y-6">
                     <h2 class="font-display font-bold text-secondary-900 text-2xl mb-8">Informações de Contacto</h2>
 
-                    @foreach ([
-                        ['icon'=>'fa-location-dot','title'=>'Morada','lines'=>['Rua Principal, nº 123','Luanda, Angola']],
-                        ['icon'=>'fa-phone','title'=>'Telefone','lines',['+244 900 000 000','Segunda a Sexta, 8h–17h']],
-                        ['icon'=>'fa-envelope','title'=>'Email','lines'=>['geral@canomar.ao','suporte@canomar.ao']],
-                        ['icon'=>'fa-brands fa-whatsapp','title'=>'WhatsApp','lines'=>['+244 900 000 000','Resposta rápida']],
-                    ] as $info)
+                    @if ($siteSettings->address)
                     <div class="flex items-start gap-4">
                         <div class="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center shrink-0">
-                            <i class="{{ str_starts_with($info['icon'], 'fa-brands') ? '' : 'fa-solid' }} {{ $info['icon'] }} text-primary-500 text-lg"></i>
+                            <i class="fa-solid fa-location-dot text-primary-500 text-lg"></i>
                         </div>
                         <div>
-                            <p class="font-semibold text-secondary-900 mb-1">{{ $info['title'] }}</p>
-                            @foreach ($info['lines'] ?? [] as $line)
-                            <p class="text-slate-500 text-sm">{{ $line }}</p>
-                            @endforeach
+                            <p class="font-semibold text-secondary-900 mb-1">Morada</p>
+                            <p class="text-slate-500 text-sm">{{ $siteSettings->address }}</p>
                         </div>
                     </div>
-                    @endforeach
+                    @endif
+
+                    @if ($siteSettings->phone)
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-phone text-primary-500 text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-secondary-900 mb-1">Telefone</p>
+                            <p class="text-slate-500 text-sm">
+                                <a href="{{ $siteSettings->telLink() }}" class="hover:text-primary-500 transition-colors">{{ $siteSettings->phone }}</a>
+                            </p>
+                            <p class="text-slate-400 text-xs mt-0.5">Segunda a Sexta, 8h–17h</p>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if ($siteSettings->email)
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-envelope text-primary-500 text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-secondary-900 mb-1">Email</p>
+                            <p class="text-slate-500 text-sm">
+                                <a href="mailto:{{ $siteSettings->email }}" class="hover:text-primary-500 transition-colors">{{ $siteSettings->email }}</a>
+                            </p>
+                            @if ($siteSettings->support_email)
+                            <p class="text-slate-500 text-sm">
+                                <a href="mailto:{{ $siteSettings->support_email }}" class="hover:text-primary-500 transition-colors">{{ $siteSettings->support_email }}</a>
+                            </p>
+                            @endif
+                        </div>
+                    </div>
+                    @endif
+
+                    @if ($siteSettings->whatsapp)
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center shrink-0">
+                            <i class="fa-brands fa-whatsapp text-primary-500 text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-secondary-900 mb-1">WhatsApp</p>
+                            <p class="text-slate-500 text-sm">
+                                <a href="{{ $siteSettings->whatsappUrl() }}" target="_blank" rel="noopener" class="hover:text-primary-500 transition-colors">{{ $siteSettings->phone ?? $siteSettings->whatsapp }}</a>
+                            </p>
+                            <p class="text-slate-400 text-xs mt-0.5">Resposta rápida</p>
+                        </div>
+                    </div>
+                    @endif
 
                     {{-- Social links --}}
+                    @php
+                        $socials = array_filter([
+                            ['url' => $siteSettings->facebook_url,  'icon' => 'bi-facebook',  'label' => 'Facebook'],
+                            ['url' => $siteSettings->instagram_url, 'icon' => 'bi-instagram', 'label' => 'Instagram'],
+                            ['url' => $siteSettings->linkedin_url,  'icon' => 'bi-linkedin',  'label' => 'LinkedIn'],
+                            ['url' => $siteSettings->youtube_url,   'icon' => 'bi-youtube',   'label' => 'YouTube'],
+                            ['url' => $siteSettings->tiktok_url,    'icon' => 'bi-tiktok',    'label' => 'TikTok'],
+                        ], fn ($s) => ! empty($s['url']));
+                    @endphp
+
+                    @if (count($socials))
                     <div class="pt-6 border-t border-slate-100">
                         <p class="font-semibold text-secondary-900 mb-4">Redes Sociais</p>
                         <div class="flex gap-3">
-                            @foreach ([['bi-facebook','Facebook'],['bi-instagram','Instagram'],['bi-linkedin','LinkedIn'],['bi-youtube','YouTube']] as [$icon, $label])
-                            <a href="#" aria-label="{{ $label }}"
+                            @foreach ($socials as $social)
+                            <a href="{{ $social['url'] }}" target="_blank" rel="noopener" aria-label="{{ $social['label'] }}"
                                class="w-10 h-10 bg-slate-100 hover:bg-primary-500 hover:text-white rounded-xl flex items-center justify-center text-slate-500 transition-all duration-200">
-                                <i class="bi {{ $icon }}"></i>
+                                <i class="bi {{ $social['icon'] }}"></i>
                             </a>
                             @endforeach
                         </div>
                     </div>
+                    @endif
                 </div>
 
                 {{-- Contact form --}}
@@ -66,7 +120,9 @@
                 <div class="text-center text-slate-400">
                     <i class="fa-solid fa-map-location-dot text-5xl mb-3 text-primary-300"></i>
                     <p class="font-medium">Mapa de localização</p>
-                    <p class="text-sm">Rua Principal, nº 123, Luanda, Angola</p>
+                    @if ($siteSettings->address)
+                    <p class="text-sm">{{ $siteSettings->address }}</p>
+                    @endif
                 </div>
             </div>
         </div>

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{{ $description ?? 'Centro de Formação Canomar – Formação profissional e certificada em Angola' }}">
     <title>{{ isset($title) ? $title . ' | ' : '' }}Centro de Formação Canomar</title>
+    <link rel="icon" type="image/png" href="/images/icon canomar.png">
+    <link rel="apple-touch-icon" href="/images/icon canomar.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,28 +50,33 @@
             <div class="flex items-center justify-between h-18">
 
                 {{-- Logo --}}
-                <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30 group-hover:scale-105 transition-transform">
-                        <i class="fa-solid fa-graduation-cap text-white text-lg"></i>
+                <a href="{{ route('home') }}" class="flex items-center group">
+                    {{-- Before scroll: icon + white text --}}
+                    <div x-show="!scrolled" x-cloak class="flex items-center gap-3">
+                        <img src="/images/icon Canomar.webp" alt="Canomar" class="w-10 h-10 group-hover:scale-105 transition-transform">
+                        <div class="leading-tight">
+                            <span class="block font-display font-bold text-lg leading-none text-white">CANOMAR</span>
+                            <span class="block text-xs font-medium text-white/70">ACADEMY</span>
+                        </div>
                     </div>
-                    <div class="leading-tight">
-                        <span class="block font-display font-bold text-secondary-900 text-lg leading-none">Canomar</span>
-                        <span class="block text-xs text-slate-500 font-medium">Centro de Formação</span>
+                    {{-- After scroll: full horizontal logo --}}
+                    <div x-show="scrolled" x-cloak>
+                        <img src="/images/Canomar horiznontal.webp" alt="Canomar Academy" class="h-10 w-auto group-hover:scale-105 transition-transform">
                     </div>
                 </a>
 
                 {{-- Desktop Menu --}}
                 <ul class="hidden lg:flex items-center gap-8">
-                    <li><a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active text-primary-500' : '' }}">Início</a></li>
-                    <li><a href="{{ route('courses.index') }}" class="nav-link {{ request()->routeIs('courses.*') ? 'active text-primary-500' : '' }}">Cursos</a></li>
-                    <li><a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active text-primary-500' : '' }}">Sobre Nós</a></li>
-                    <li><a href="{{ route('blog.index') }}" class="nav-link {{ request()->routeIs('blog.*') ? 'active text-primary-500' : '' }}">Notícias</a></li>
-                    <li><a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active text-primary-500' : '' }}">Contacto</a></li>
+                    <li><a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active text-primary-500' : '' }}" :class="scrolled ? 'text-slate-700' : 'text-white'">Início</a></li>
+                    <li><a href="{{ route('courses.index') }}" class="nav-link {{ request()->routeIs('courses.*') ? 'active text-primary-500' : '' }}" :class="scrolled ? 'text-slate-700' : 'text-white'">Cursos</a></li>
+                    <li><a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active text-primary-500' : '' }}" :class="scrolled ? 'text-slate-700' : 'text-white'">Sobre Nós</a></li>
+                    <li><a href="{{ route('blog.index') }}" class="nav-link {{ request()->routeIs('blog.*') ? 'active text-primary-500' : '' }}" :class="scrolled ? 'text-slate-700' : 'text-white'">Notícias</a></li>
+                    <li><a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active text-primary-500' : '' }}" :class="scrolled ? 'text-slate-700' : 'text-white'">Contacto</a></li>
                 </ul>
 
                 {{-- Desktop CTA --}}
                 <div class="hidden lg:flex items-center gap-3">
-                    <a href="{{ url('/aluno') }}" class="text-secondary-900 font-semibold text-sm hover:text-primary-500 transition-colors">
+                    <a href="{{ url('/aluno') }}" class="font-semibold text-sm transition-colors" :class="scrolled ? 'text-secondary-900 hover:text-primary-500' : 'text-white hover:text-primary-300'">
                         <i class="bi bi-person-circle mr-1.5"></i>Portal
                     </a>
                     <a href="{{ route('courses.index') }}" class="btn-primary text-sm py-2.5 px-5">
@@ -79,7 +86,7 @@
                 </div>
 
                 {{-- Mobile menu button --}}
-                <button @click="open = !open" class="lg:hidden p-2 rounded-xl text-secondary-900 hover:bg-slate-100 transition-colors">
+                <button @click="open = !open" class="lg:hidden p-2 rounded-xl transition-colors" :class="scrolled ? 'text-secondary-900 hover:bg-slate-100' : 'text-white hover:bg-white/10'">
                     <i x-show="!open" class="bi bi-list text-2xl"></i>
                     <i x-show="open" class="bi bi-x-lg text-2xl"></i>
                 </button>
@@ -127,33 +134,46 @@
                 {{-- Brand --}}
                 <div class="lg:col-span-2">
                     <a href="{{ route('home') }}" class="flex items-center gap-3 mb-5">
-                        <div class="w-11 h-11 bg-gradient-primary rounded-xl flex items-center justify-center shadow-lg">
-                            <i class="fa-solid fa-graduation-cap text-white text-xl"></i>
-                        </div>
+                        <img src="/images/icon Canomar.webp" alt="Canomar" class="w-12 h-12">
                         <div>
-                            <span class="block font-display font-bold text-white text-xl leading-none">Canomar</span>
-                            <span class="block text-xs text-slate-400 font-medium">Centro de Formação</span>
+                            <span class="block font-display font-bold text-white text-xl leading-none">CANOMAR</span>
+                            <span class="block text-xs text-slate-400 font-medium tracking-widest">ACADEMY</span>
                         </div>
                     </a>
                     <p class="text-slate-400 text-sm leading-relaxed max-w-sm">
                         Formação profissional certificada em Angola. Desenvolvemos competências e transformamos vidas através do conhecimento e da excelência.
                     </p>
                     <div class="flex items-center gap-3 mt-6">
-                        <a href="#" aria-label="Facebook" class="w-9 h-9 bg-white/10 hover:bg-primary-500 rounded-lg flex items-center justify-center transition-colors duration-200">
+                        @if ($siteSettings->facebook_url)
+                        <a href="{{ $siteSettings->facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook" class="w-9 h-9 bg-white/10 hover:bg-primary-500 rounded-lg flex items-center justify-center transition-colors duration-200">
                             <i class="bi bi-facebook text-sm"></i>
                         </a>
-                        <a href="#" aria-label="Instagram" class="w-9 h-9 bg-white/10 hover:bg-primary-500 rounded-lg flex items-center justify-center transition-colors duration-200">
+                        @endif
+                        @if ($siteSettings->instagram_url)
+                        <a href="{{ $siteSettings->instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram" class="w-9 h-9 bg-white/10 hover:bg-primary-500 rounded-lg flex items-center justify-center transition-colors duration-200">
                             <i class="bi bi-instagram text-sm"></i>
                         </a>
-                        <a href="#" aria-label="LinkedIn" class="w-9 h-9 bg-white/10 hover:bg-primary-500 rounded-lg flex items-center justify-center transition-colors duration-200">
+                        @endif
+                        @if ($siteSettings->linkedin_url)
+                        <a href="{{ $siteSettings->linkedin_url }}" target="_blank" rel="noopener" aria-label="LinkedIn" class="w-9 h-9 bg-white/10 hover:bg-primary-500 rounded-lg flex items-center justify-center transition-colors duration-200">
                             <i class="bi bi-linkedin text-sm"></i>
                         </a>
-                        <a href="#" aria-label="YouTube" class="w-9 h-9 bg-white/10 hover:bg-primary-500 rounded-lg flex items-center justify-center transition-colors duration-200">
+                        @endif
+                        @if ($siteSettings->youtube_url)
+                        <a href="{{ $siteSettings->youtube_url }}" target="_blank" rel="noopener" aria-label="YouTube" class="w-9 h-9 bg-white/10 hover:bg-primary-500 rounded-lg flex items-center justify-center transition-colors duration-200">
                             <i class="bi bi-youtube text-sm"></i>
                         </a>
-                        <a href="#" aria-label="WhatsApp" class="w-9 h-9 bg-white/10 hover:bg-primary-500 rounded-lg flex items-center justify-center transition-colors duration-200">
+                        @endif
+                        @if ($siteSettings->tiktok_url)
+                        <a href="{{ $siteSettings->tiktok_url }}" target="_blank" rel="noopener" aria-label="TikTok" class="w-9 h-9 bg-white/10 hover:bg-primary-500 rounded-lg flex items-center justify-center transition-colors duration-200">
+                            <i class="bi bi-tiktok text-sm"></i>
+                        </a>
+                        @endif
+                        @if ($siteSettings->whatsapp)
+                        <a href="{{ $siteSettings->whatsappUrl() }}" target="_blank" rel="noopener" aria-label="WhatsApp" class="w-9 h-9 bg-white/10 hover:bg-primary-500 rounded-lg flex items-center justify-center transition-colors duration-200">
                             <i class="bi bi-whatsapp text-sm"></i>
                         </a>
+                        @endif
                     </div>
                     <livewire:newsletter-form :compact="true" />
                 </div>
@@ -175,22 +195,30 @@
                 <div>
                     <h4 class="font-display font-semibold text-white mb-5">Contacte-nos</h4>
                     <ul class="space-y-4 text-sm">
+                        @if ($siteSettings->address)
                         <li class="flex items-start gap-3 text-slate-400">
                             <i class="fa-solid fa-location-dot text-primary-400 mt-0.5"></i>
-                            <span>Rua Principal, nº 123<br>Luanda, Angola</span>
+                            <span>{{ $siteSettings->address }}</span>
                         </li>
+                        @endif
+                        @if ($siteSettings->phone)
                         <li class="flex items-center gap-3 text-slate-400">
                             <i class="fa-solid fa-phone text-primary-400"></i>
-                            <a href="tel:+244900000000" class="hover:text-primary-400 transition-colors">+244 900 000 000</a>
+                            <a href="{{ $siteSettings->telLink() }}" class="hover:text-primary-400 transition-colors">{{ $siteSettings->phone }}</a>
                         </li>
+                        @endif
+                        @if ($siteSettings->email)
                         <li class="flex items-center gap-3 text-slate-400">
                             <i class="fa-solid fa-envelope text-primary-400"></i>
-                            <a href="mailto:geral@canomar.ao" class="hover:text-primary-400 transition-colors">geral@canomar.ao</a>
+                            <a href="mailto:{{ $siteSettings->email }}" class="hover:text-primary-400 transition-colors">{{ $siteSettings->email }}</a>
                         </li>
+                        @endif
+                        @if ($siteSettings->whatsapp)
                         <li class="flex items-center gap-3 text-slate-400">
                             <i class="fa-brands fa-whatsapp text-primary-400"></i>
-                            <a href="https://wa.me/244900000000" class="hover:text-primary-400 transition-colors">WhatsApp</a>
+                            <a href="{{ $siteSettings->whatsappUrl() }}" target="_blank" rel="noopener" class="hover:text-primary-400 transition-colors">WhatsApp</a>
                         </li>
+                        @endif
                     </ul>
                 </div>
             </div>
