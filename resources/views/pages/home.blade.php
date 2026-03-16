@@ -28,10 +28,9 @@
                     </div>
 
                     <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
-                        Invista no seu
-                        <span class="text-primary-400">futuro</span>
-                        <br>com formação de
-                        <span class="text-primary-400">qualidade</span>
+                        O seu <span class="text-primary-400">futuro</span><br>
+                        começa com formação<br>
+                        de <span class="text-primary-400">qualidade</span>
                     </h1>
 
                     <p class="text-slate-300 text-xl leading-relaxed mb-10 max-w-lg">
@@ -75,7 +74,7 @@
                     <div class="relative w-[420px] h-[420px]">
                         <!-- Main card -->
                         <div class="absolute inset-0 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl flex items-center justify-center shadow-2xl">
-                            <i class="fa-solid fa-graduation-cap text-white" style="font-size: 140px; opacity: 0.15;"></i>
+                            <img src="/images/Art Canomar nk.png" alt="Canomar Academy" class="w-52 h-52 object-contain drop-shadow-2xl">
                         </div>
 
                         <!-- Floating cards -->
