@@ -95,7 +95,21 @@
       "Bash(php artisan make:livewire BlogCatalog --class --no-interaction)",
       "Bash(php artisan test --compact --filter=PublicPages)",
       "Bash(php artisan make:test --pest BlogCatalogTest --no-interaction)",
-      "Bash(php artisan test --compact --filter=BlogCatalogTest)"
+      "Bash(php artisan test --compact --filter=BlogCatalogTest)",
+      "Bash(./vendor/bin/pint --dirty)",
+      "Bash(npx vite:*)",
+      "Bash(npm install:*)",
+      "Bash(php artisan:*)",
+      "Bash(php -r \":*)",
+      "Bash(find c:/Users/leona/Herd/centroformacaocanomar -type f -name *Settings*)",
+      "Bash(xargs grep:*)",
+      "Bash(grep -r \"footer\\\\|contact\\\\|address\\\\|phone\\\\|email\" c:/Users/leona/Herd/centroformacaocanomar/app/Models --include=*.php -i)",
+      "Bash(cmd /c \"vendor\\\\bin\\\\pint --dirty 2>&1\")",
+      "Bash(cmd /c \"vendor\\\\bin\\\\pint --dirty\")",
+      "Bash(cmd /c \"npm run build\")",
+      "Bash(cmd /c \"npm run build 2>&1\")",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "additionalDirectories": [
       "c:\\Users\\leona\\.claude\\projects\\c--Users-leona-Herd-centroformacaocanomar\\memory"

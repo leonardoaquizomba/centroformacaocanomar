@@ -2,6 +2,19 @@
 
 ---
 
+## 2026-03-16 – Dynamic Site Settings System
+
+**Task:** Admin-editable contact info and social media links
+
+**What was done:**
+- Created `site_settings` migration and `SiteSetting` model (singleton via `firstOrCreate(['id'=>1])`), with `whatsappUrl()` and `telLink()` helpers
+- Built `ManageSettings` Filament admin page (Configurações group) with two sections: Informações de Contacto and Redes Sociais
+- Added view composer in `AppServiceProvider` sharing `$siteSettings` to all views
+- Updated footer in `app.blade.php` and `contact.blade.php` to use dynamic settings; social icons only render when a URL is configured
+- Ran `shield:generate --all` to create permission for the new page
+
+---
+
 ## 2026-03-07 – Ownership Policies for Secure Downloads (M5)
 
 **Task:** Security – M5 (OWASP)
