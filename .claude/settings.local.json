@@ -109,7 +109,8 @@
       "Bash(cmd /c \"npm run build\")",
       "Bash(cmd /c \"npm run build 2>&1\")",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(cmd /c \"vendor\\\\bin\\\\pint --dirty app/Filament/Exports app/Filament/Resources/Enrollments/Pages/ListEnrollments.php app/Filament/Resources/Payments/Pages/ListPayments.php app/Filament/Resources/Certificates/Pages/ListCertificates.php app/Filament/Aluno/Resources/MeusCertificadosResource.php 2>&1\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\leona\\.claude\\projects\\c--Users-leona-Herd-centroformacaocanomar\\memory"
