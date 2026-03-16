@@ -5,10 +5,12 @@ namespace App\Filament\Resources\Enrollments\Tables;
 use App\Enums\EnrollmentStatus;
 use App\Mail\SendEnrollmentApprovedEmail;
 use App\Models\Enrollment;
+use App\Filament\Exports\EnrollmentExporter;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -81,6 +83,7 @@ class EnrollmentsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    ExportBulkAction::make()->exporter(EnrollmentExporter::class)->label('Exportar selecionados'),
                     DeleteBulkAction::make(),
                 ]),
             ])

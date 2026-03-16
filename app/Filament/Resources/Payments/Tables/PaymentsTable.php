@@ -5,11 +5,13 @@ namespace App\Filament\Resources\Payments\Tables;
 use App\Actions\ProcessPaymentApproval;
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
+use App\Filament\Exports\PaymentExporter;
 use App\Models\Payment;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -76,6 +78,7 @@ class PaymentsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    ExportBulkAction::make()->exporter(PaymentExporter::class)->label('Exportar selecionados'),
                     DeleteBulkAction::make(),
                 ]),
             ])
