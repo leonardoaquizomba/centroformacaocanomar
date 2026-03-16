@@ -8,6 +8,7 @@ use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -54,12 +55,28 @@ class MinhasInscricoesResource extends Resource
                 TextColumn::make('status')
                     ->label('Estado')
                     ->badge(),
+                TextColumn::make('documents_count')
+                    ->label('Docs.')
+                    ->counts('documents')
+                    ->badge()
+                    ->color('gray'),
                 TextColumn::make('created_at')
                     ->label('Data de Inscrição')
                     ->dateTime('d/m/Y')
                     ->sortable(),
             ])
-            ->recordActions([])
+            ->recordActions([
+                Action::make('documents')
+                    ->label('Documentos')
+                    ->icon(Heroicon::OutlinedDocumentText)
+                    ->modalHeading(fn (Enrollment $record): string => 'Documentos — '.$record->course->name)
+                    ->modalContent(fn (Enrollment $record) => view(
+                        'filament.aluno.enrollment-documents',
+                        ['documents' => $record->documents]
+                    ))
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel('Fechar'),
+            ])
             ->toolbarActions([])
             ->defaultSort('created_at', 'desc');
     }
