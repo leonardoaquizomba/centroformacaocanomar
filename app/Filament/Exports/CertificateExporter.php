@@ -12,6 +12,11 @@ class CertificateExporter extends Exporter
 {
     protected static ?string $model = Certificate::class;
 
+    public function getJobConnection(): ?string
+    {
+        return 'sync';
+    }
+
     public static function getColumns(): array
     {
         return [
