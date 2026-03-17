@@ -3,19 +3,20 @@
 namespace App\Filament\Resources\Enrollments\Tables;
 
 use App\Enums\EnrollmentStatus;
-use App\Mail\SendEnrollmentApprovedEmail;
-use App\Models\Enrollment;
+use App\Events\EnrollmentApproved;
+use App\Events\EnrollmentRejected;
 use App\Filament\Exports\EnrollmentExporter;
+use App\Models\Enrollment;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ExportBulkAction;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 
 class EnrollmentsTable
 {
@@ -67,18 +68,29 @@ class EnrollmentsTable
                             'approved_at' => now(),
                             'approved_by' => Auth::id(),
                         ]);
-                        Mail::to($record->user->email)->queue(new SendEnrollmentApprovedEmail($record));
+                        EnrollmentApproved::dispatch($record->load(['user', 'course', 'courseClass']));
                     }),
                 Action::make('reject')
                     ->label('Rejeitar')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')
-                    ->requiresConfirmation()
+                    ->form([
+                        Textarea::make('rejection_reason')
+                            ->label('Motivo da rejeição')
+                            ->required()
+                            ->rows(3)
+                            ->maxLength(500),
+                    ])
                     ->modalHeading('Rejeitar Inscrição')
-                    ->modalDescription('Tem a certeza que deseja rejeitar esta inscrição?')
-                    ->modalSubmitActionLabel('Sim, rejeitar')
+                    ->modalSubmitActionLabel('Rejeitar')
                     ->visible(fn (Enrollment $record): bool => $record->status === EnrollmentStatus::Pendente)
-                    ->action(fn (Enrollment $record) => $record->update(['status' => EnrollmentStatus::Rejeitado])),
+                    ->action(function (Enrollment $record, array $data): void {
+                        $record->update([
+                            'status' => EnrollmentStatus::Rejeitado,
+                            'rejection_reason' => $data['rejection_reason'],
+                        ]);
+                        EnrollmentRejected::dispatch($record->load(['user', 'course', 'courseClass']));
+                    }),
                 EditAction::make(),
             ])
             ->toolbarActions([

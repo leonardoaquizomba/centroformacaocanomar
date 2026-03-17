@@ -4,16 +4,17 @@ namespace App\Livewire;
 
 use App\Enums\DocumentType;
 use App\Enums\EnrollmentStatus;
-use App\Mail\SendEnrollmentReceivedEmail;
+use App\Events\EnrollmentSubmitted;
 use App\Models\Course;
 use App\Models\CourseClass;
 use App\Models\Enrollment;
 use App\Models\EnrollmentDocument;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -73,7 +74,7 @@ class EnrollmentForm extends Component
 
         if (Auth::check()) {
             $user = Auth::user();
-            $this->name  = $user->name;
+            $this->name = $user->name;
             $this->email = $user->email;
             $this->authMode = 'form';
         } else {
@@ -98,13 +99,13 @@ class EnrollmentForm extends Component
     public function login(): void
     {
         $this->validate([
-            'authEmail'    => 'required|email',
+            'authEmail' => 'required|email',
             'authPassword' => 'required',
         ]);
 
         if (Auth::attempt(['email' => $this->authEmail, 'password' => $this->authPassword])) {
             $user = Auth::user();
-            $this->name  = $user->name;
+            $this->name = $user->name;
             $this->email = $user->email;
             $this->authMode = 'form';
             $this->reset('authEmail', 'authPassword');
@@ -116,14 +117,14 @@ class EnrollmentForm extends Component
     public function register(): void
     {
         $this->validate([
-            'registerName'     => 'required|min:2|max:100',
-            'registerEmail'    => 'required|email|max:100|unique:users,email',
+            'registerName' => 'required|min:2|max:100',
+            'registerEmail' => 'required|email|max:100|unique:users,email',
             'registerPassword' => 'required|min:8|confirmed',
         ]);
 
         $user = User::create([
-            'name'     => $this->registerName,
-            'email'    => $this->registerEmail,
+            'name' => $this->registerName,
+            'email' => $this->registerEmail,
             'password' => Hash::make($this->registerPassword),
         ]);
 
@@ -133,7 +134,7 @@ class EnrollmentForm extends Component
 
         Auth::login($user);
 
-        $this->name  = $user->name;
+        $this->name = $user->name;
         $this->email = $user->email;
         $this->authMode = 'form';
         $this->reset('registerName', 'registerEmail', 'registerPassword', 'registerPasswordConfirmation');
@@ -145,14 +146,14 @@ class EnrollmentForm extends Component
     {
         $rules = match ($this->step) {
             1 => [
-                'name'  => 'required|min:2|max:100',
+                'name' => 'required|min:2|max:100',
                 'email' => 'required|email|max:100',
                 'phone' => 'required|max:20',
-                'bi'    => 'required|max:20',
+                'bi' => 'required|max:20',
             ],
             2 => [
-                'biDocument'       => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-                'paymentProof'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+                'biDocument' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+                'paymentProof' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
                 'otherDocuments.*' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:10240',
             ],
             3 => [
@@ -178,24 +179,24 @@ class EnrollmentForm extends Component
     public function submit(): void
     {
         $this->validate([
-            'name'             => 'required|min:2|max:100',
-            'email'            => 'required|email|max:100',
-            'phone'            => 'required|max:20',
-            'bi'               => 'required|max:20',
-            'courseClassId'    => 'nullable|exists:course_classes,id',
-            'biDocument'       => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'paymentProof'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'name' => 'required|min:2|max:100',
+            'email' => 'required|email|max:100',
+            'phone' => 'required|max:20',
+            'bi' => 'required|max:20',
+            'courseClassId' => 'nullable|exists:course_classes,id',
+            'biDocument' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'paymentProof' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
             'otherDocuments.*' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:10240',
         ]);
 
         $user = Auth::user();
 
         $enrollment = Enrollment::create([
-            'user_id'         => $user->id,
-            'course_id'       => $this->course->id,
+            'user_id' => $user->id,
+            'course_id' => $this->course->id,
             'course_class_id' => $this->courseClassId,
-            'status'          => EnrollmentStatus::Pendente,
-            'notes'           => $this->notes ?: null,
+            'status' => EnrollmentStatus::Pendente,
+            'notes' => $this->notes ?: null,
         ]);
 
         $basePath = "enrollments/{$enrollment->id}";
@@ -204,10 +205,10 @@ class EnrollmentForm extends Component
             $path = $this->biDocument->store($basePath, 'private');
             EnrollmentDocument::create([
                 'enrollment_id' => $enrollment->id,
-                'type'          => DocumentType::Bi,
-                'file_path'     => $path,
+                'type' => DocumentType::Bi,
+                'file_path' => $path,
                 'original_name' => $this->biDocument->getClientOriginalName(),
-                'mime_type'     => $this->biDocument->getMimeType(),
+                'mime_type' => $this->biDocument->getMimeType(),
             ]);
         }
 
@@ -215,10 +216,10 @@ class EnrollmentForm extends Component
             $path = $this->paymentProof->store($basePath, 'private');
             EnrollmentDocument::create([
                 'enrollment_id' => $enrollment->id,
-                'type'          => DocumentType::Comprovativo,
-                'file_path'     => $path,
+                'type' => DocumentType::Comprovativo,
+                'file_path' => $path,
                 'original_name' => $this->paymentProof->getClientOriginalName(),
-                'mime_type'     => $this->paymentProof->getMimeType(),
+                'mime_type' => $this->paymentProof->getMimeType(),
             ]);
         }
 
@@ -226,27 +227,25 @@ class EnrollmentForm extends Component
             $path = $doc->store($basePath, 'private');
             EnrollmentDocument::create([
                 'enrollment_id' => $enrollment->id,
-                'type'          => DocumentType::Outro,
-                'file_path'     => $path,
+                'type' => DocumentType::Outro,
+                'file_path' => $path,
                 'original_name' => $doc->getClientOriginalName(),
-                'mime_type'     => $doc->getMimeType(),
+                'mime_type' => $doc->getMimeType(),
             ]);
         }
 
         Log::channel('daily')->info('Enrollment created', [
             'enrollment_id' => $enrollment->id,
-            'user_id'       => $user->id,
-            'course_id'     => $this->course->id,
+            'user_id' => $user->id,
+            'course_id' => $this->course->id,
         ]);
 
-        Mail::to($user->email)->queue(
-            new SendEnrollmentReceivedEmail($enrollment->load(['user', 'course', 'courseClass']))
-        );
+        EnrollmentSubmitted::dispatch($enrollment->load(['user', 'course', 'courseClass']));
 
         $this->submitted = true;
     }
 
-    public function getAvailableClassesProperty(): \Illuminate\Database\Eloquent\Collection
+    public function getAvailableClassesProperty(): Collection
     {
         return CourseClass::query()
             ->where('course_id', $this->course->id)
@@ -254,7 +253,7 @@ class EnrollmentForm extends Component
             ->get();
     }
 
-    public function render(): \Illuminate\View\View
+    public function render(): View
     {
         return view('livewire.enrollment-form');
     }

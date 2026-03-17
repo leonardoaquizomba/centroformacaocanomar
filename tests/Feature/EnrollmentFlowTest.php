@@ -3,14 +3,17 @@
 use App\Actions\ProcessPaymentApproval;
 use App\Enums\EnrollmentStatus;
 use App\Enums\PaymentStatus;
+use App\Events\EnrollmentConfirmed;
+use App\Events\PaymentReceived;
 use App\Jobs\GenerateCertificateJob;
 use App\Mail\SendEnrollmentApprovedEmail;
-use App\Mail\SendEnrollmentConfirmedEmail;
 use App\Mail\SendEnrollmentReceivedEmail;
+use App\Models\Certificate;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Payment;
 use App\Models\User;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 
@@ -88,8 +91,8 @@ it('updates enrollment to aprovado and sends approved email', function (): void 
         ->and($enrollment->approved_by)->toBe($admin->id);
 });
 
-it('processes payment and confirms enrollment with job and email', function (): void {
-    Mail::fake();
+it('processes payment and confirms enrollment with job and events', function (): void {
+    Event::fake();
     Queue::fake();
 
     $user = User::factory()->create();
@@ -110,10 +113,9 @@ it('processes payment and confirms enrollment with job and email', function (): 
         ->and($payment->fresh()->paid_at)->not->toBeNull()
         ->and($enrollment->fresh()->status)->toBe(EnrollmentStatus::Matriculado);
 
-    Mail::assertQueued(SendEnrollmentConfirmedEmail::class);
-    Queue::assertPushed(GenerateCertificateJob::class, function (GenerateCertificateJob $job) use ($enrollment): bool {
-        return $job->enrollment->id === $enrollment->id;
-    });
+    Event::assertDispatched(EnrollmentConfirmed::class, fn (EnrollmentConfirmed $e) => $e->enrollment->id === $enrollment->id);
+    Event::assertDispatched(PaymentReceived::class, fn (PaymentReceived $e) => $e->payment->id === $payment->id);
+    Queue::assertPushed(GenerateCertificateJob::class, fn (GenerateCertificateJob $job) => $job->enrollment->id === $enrollment->id);
 });
 
 it('requires authentication to download a certificate', function (): void {
@@ -137,7 +139,7 @@ it('denies certificate download to user who does not own it', function (): void 
         'course_id' => $course->id,
     ]);
 
-    $certificate = \App\Models\Certificate::create([
+    $certificate = Certificate::create([
         'enrollment_id' => $enrollment->id,
         'user_id' => $owner->id,
         'course_id' => $course->id,

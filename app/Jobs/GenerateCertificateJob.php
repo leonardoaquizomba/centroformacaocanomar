@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\CertificateIssued;
 use App\Models\Certificate;
 use App\Models\Enrollment;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -32,7 +33,7 @@ class GenerateCertificateJob implements ShouldQueue
 
         Storage::disk('private')->put($filename, $pdf->output());
 
-        Certificate::updateOrCreate(
+        $certificate = Certificate::updateOrCreate(
             ['enrollment_id' => $enrollment->id],
             [
                 'user_id' => $enrollment->user_id,
@@ -42,5 +43,7 @@ class GenerateCertificateJob implements ShouldQueue
                 'file_path' => $filename,
             ]
         );
+
+        CertificateIssued::dispatch($certificate->load(['user', 'course']));
     }
 }

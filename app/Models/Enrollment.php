@@ -3,8 +3,14 @@
 namespace App\Models;
 
 use App\Enums\EnrollmentStatus;
+use Database\Factories\EnrollmentFactory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -13,19 +19,19 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $course_class_id
  * @property EnrollmentStatus $status
  * @property string|null $notes
- * @property \Illuminate\Support\Carbon|null $approved_at
+ * @property Carbon|null $approved_at
  * @property int|null $approved_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\User|null $approvedBy
- * @property-read \App\Models\Certificate|null $certificate
- * @property-read \App\Models\Course $course
- * @property-read \App\Models\CourseClass|null $courseClass
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\EnrollmentDocument> $documents
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read User|null $approvedBy
+ * @property-read Certificate|null $certificate
+ * @property-read Course $course
+ * @property-read CourseClass|null $courseClass
+ * @property-read Collection<int, EnrollmentDocument> $documents
  * @property-read int|null $documents_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
+ * @property-read Collection<int, Payment> $payments
  * @property-read int|null $payments_count
- * @property-read \App\Models\User $user
+ * @property-read User $user
  *
  * @method static \Database\Factories\EnrollmentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment newModelQuery()
@@ -46,7 +52,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Enrollment extends Model
 {
-    /** @use HasFactory<\Database\Factories\EnrollmentFactory> */
+    /** @use HasFactory<EnrollmentFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -55,6 +61,7 @@ class Enrollment extends Model
         'course_class_id',
         'status',
         'notes',
+        'rejection_reason',
         'approved_at',
         'approved_by',
     ];
@@ -67,44 +74,44 @@ class Enrollment extends Model
         ];
     }
 
-    /** @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User, $this> */
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    /** @return BelongsTo<User, $this> */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /** @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Course, $this> */
-    public function course(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    /** @return BelongsTo<Course, $this> */
+    public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
     }
 
-    /** @return \Illuminate\Database\Eloquent\Relations\BelongsTo<CourseClass, $this> */
-    public function courseClass(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    /** @return BelongsTo<CourseClass, $this> */
+    public function courseClass(): BelongsTo
     {
         return $this->belongsTo(CourseClass::class);
     }
 
-    /** @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User, $this> */
-    public function approvedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    /** @return BelongsTo<User, $this> */
+    public function approvedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'approved_by');
     }
 
-    /** @return \Illuminate\Database\Eloquent\Relations\HasMany<EnrollmentDocument, $this> */
-    public function documents(): \Illuminate\Database\Eloquent\Relations\HasMany
+    /** @return HasMany<EnrollmentDocument, $this> */
+    public function documents(): HasMany
     {
         return $this->hasMany(EnrollmentDocument::class);
     }
 
-    /** @return \Illuminate\Database\Eloquent\Relations\HasMany<Payment, $this> */
-    public function payments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    /** @return HasMany<Payment, $this> */
+    public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
     }
 
-    /** @return \Illuminate\Database\Eloquent\Relations\HasOne<Certificate, $this> */
-    public function certificate(): \Illuminate\Database\Eloquent\Relations\HasOne
+    /** @return HasOne<Certificate, $this> */
+    public function certificate(): HasOne
     {
         return $this->hasOne(Certificate::class);
     }
