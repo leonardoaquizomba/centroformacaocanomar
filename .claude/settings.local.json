@@ -110,7 +110,12 @@
       "Bash(cmd /c \"npm run build 2>&1\")",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(cmd /c \"vendor\\\\bin\\\\pint --dirty app/Filament/Exports app/Filament/Resources/Enrollments/Pages/ListEnrollments.php app/Filament/Resources/Payments/Pages/ListPayments.php app/Filament/Resources/Certificates/Pages/ListCertificates.php app/Filament/Aluno/Resources/MeusCertificadosResource.php 2>&1\")"
+      "Bash(cmd /c \"vendor\\\\bin\\\\pint --dirty app/Filament/Exports app/Filament/Resources/Enrollments/Pages/ListEnrollments.php app/Filament/Resources/Payments/Pages/ListPayments.php app/Filament/Resources/Certificates/Pages/ListCertificates.php app/Filament/Aluno/Resources/MeusCertificadosResource.php 2>&1\")",
+      "Bash(grep -r \"Mail::\\\\|SendEnrollment\\\\|SendNewsletterWelcome\" /c/Users/leona/Herd/centroformacaocanomar/app --include=*.php)",
+      "Bash(find /c/Users/leona/Herd/centroformacaocanomar -type f -name *.php -path *resources/views*)",
+      "Bash(composer show:*)",
+      "Bash(composer require:*)",
+      "Bash(php vendor/bin/pint --dirty)"
     ],
     "additionalDirectories": [
       "c:\\Users\\leona\\.claude\\projects\\c--Users-leona-Herd-centroformacaocanomar\\memory"
