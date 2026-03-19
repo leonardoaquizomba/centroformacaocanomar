@@ -2,6 +2,22 @@
 
 ---
 
+## 2026-03-19 – Class Report Improvements
+
+**Task:** Make improvements to the ClassReportPage in the teacher portal
+
+**What was done:**
+- Added 2 new summary cards to the header: class-wide average attendance % and average grade (both colour-coded green/yellow/red)
+- Added `Justificadas` column — the field existed in backend data but was never shown in the table
+- Grade averages now render as "X / Y" (e.g. "13.5 / 20") with green/yellow/red colour coding based on score percentage
+- Enrollment status replaced plain text with colour-coded badges matching EnrollmentStatus enum colours
+- Summary totals/averages row added to `<tfoot>` — sums per-column totals and repeats the class average stats
+- `wire:loading.delay` indicator shown while report refreshes on class switch
+- `statusBadgeClass()` private helper maps Filament colour tokens → Tailwind class strings
+- 5 new Pest tests added (14 total, all passing): justified count, grade_avg_max, status badge class, class avg attendance, class avg grade
+
+---
+
 ## 2026-03-19 – Teacher Portal: Scope Resources to Assigned Classes
 
 **Task:** Fix teacher dashboard — materials, grades, and attendance must be scoped to the teacher's assigned classes; adding materials was not possible
