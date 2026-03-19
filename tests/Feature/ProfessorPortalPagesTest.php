@@ -139,6 +139,100 @@ it('report shows grade average for enrolled students', function (): void {
         ->and($report['grade_avg'])->toBe(15.0);
 });
 
+it('report tracks justified absences separately', function (): void {
+    $class = CourseClass::factory()->create(['teacher_id' => $this->teacher->id]);
+    $student = User::factory()->create();
+
+    Enrollment::factory()->create([
+        'user_id' => $student->id,
+        'course_id' => $class->course_id,
+        'course_class_id' => $class->id,
+    ]);
+
+    Attendance::create(['course_class_id' => $class->id, 'user_id' => $student->id, 'session_date' => now(), 'status' => AttendanceStatus::Presente]);
+    Attendance::create(['course_class_id' => $class->id, 'user_id' => $student->id, 'session_date' => now()->addDay(), 'status' => AttendanceStatus::Justificado]);
+    Attendance::create(['course_class_id' => $class->id, 'user_id' => $student->id, 'session_date' => now()->addDays(2), 'status' => AttendanceStatus::Justificado]);
+
+    $report = Livewire::actingAs($this->teacher)->test(ClassReportPage::class)->get('studentReports')[0];
+
+    expect($report['justified'])->toBe(2)
+        ->and($report['absent'])->toBe(0);
+});
+
+it('report includes grade_avg_max per student', function (): void {
+    $class = CourseClass::factory()->create(['teacher_id' => $this->teacher->id]);
+    $student = User::factory()->create();
+
+    $enrollment = Enrollment::factory()->create([
+        'user_id' => $student->id,
+        'course_id' => $class->course_id,
+        'course_class_id' => $class->id,
+    ]);
+
+    Grade::create(['enrollment_id' => $enrollment->id, 'user_id' => $student->id, 'course_class_id' => $class->id, 'teacher_id' => $this->teacher->id, 'name' => 'T1', 'score' => 15.0, 'max_score' => 20.0]);
+    Grade::create(['enrollment_id' => $enrollment->id, 'user_id' => $student->id, 'course_class_id' => $class->id, 'teacher_id' => $this->teacher->id, 'name' => 'T2', 'score' => 17.0, 'max_score' => 20.0]);
+
+    $report = Livewire::actingAs($this->teacher)->test(ClassReportPage::class)->get('studentReports')[0];
+
+    expect($report['grade_avg_max'])->toBe(20.0);
+});
+
+it('report includes enrollment status badge class for enrolled student', function (): void {
+    $class = CourseClass::factory()->create(['teacher_id' => $this->teacher->id]);
+    $student = User::factory()->create();
+
+    Enrollment::factory()->create([
+        'user_id' => $student->id,
+        'course_id' => $class->course_id,
+        'course_class_id' => $class->id,
+        'status' => EnrollmentStatus::Matriculado,
+    ]);
+
+    $report = Livewire::actingAs($this->teacher)->test(ClassReportPage::class)->get('studentReports')[0];
+
+    expect($report['enrollment_status_class'])->toContain('green');
+});
+
+it('classInfo includes class average attendance percentage', function (): void {
+    $class = CourseClass::factory()->create(['teacher_id' => $this->teacher->id]);
+    $student = User::factory()->create();
+
+    Enrollment::factory()->create([
+        'user_id' => $student->id,
+        'course_id' => $class->course_id,
+        'course_class_id' => $class->id,
+    ]);
+
+    // 3 present, 1 absent → 75 %
+    foreach (range(0, 2) as $i) {
+        Attendance::create(['course_class_id' => $class->id, 'user_id' => $student->id, 'session_date' => now()->addDays($i), 'status' => AttendanceStatus::Presente]);
+    }
+    Attendance::create(['course_class_id' => $class->id, 'user_id' => $student->id, 'session_date' => now()->addDays(3), 'status' => AttendanceStatus::Ausente]);
+
+    $classInfo = Livewire::actingAs($this->teacher)->test(ClassReportPage::class)->get('classInfo');
+
+    expect($classInfo['class_avg_attendance'])->toBe(75);
+});
+
+it('classInfo includes class average grade', function (): void {
+    $class = CourseClass::factory()->create(['teacher_id' => $this->teacher->id]);
+    $student = User::factory()->create();
+
+    $enrollment = Enrollment::factory()->create([
+        'user_id' => $student->id,
+        'course_id' => $class->course_id,
+        'course_class_id' => $class->id,
+    ]);
+
+    Grade::create(['enrollment_id' => $enrollment->id, 'user_id' => $student->id, 'course_class_id' => $class->id, 'teacher_id' => $this->teacher->id, 'name' => 'T1', 'score' => 12.0, 'max_score' => 20.0]);
+    Grade::create(['enrollment_id' => $enrollment->id, 'user_id' => $student->id, 'course_class_id' => $class->id, 'teacher_id' => $this->teacher->id, 'name' => 'T2', 'score' => 16.0, 'max_score' => 20.0]);
+
+    $classInfo = Livewire::actingAs($this->teacher)->test(ClassReportPage::class)->get('classInfo');
+
+    expect($classInfo['class_avg_grade'])->toBe(14.0)
+        ->and($classInfo['class_avg_grade_max'])->toBe(20.0);
+});
+
 it('teacher cannot view report for a class assigned to another teacher', function (): void {
     $otherTeacher = User::factory()->create();
     $class = CourseClass::factory()->create(['teacher_id' => $otherTeacher->id]);

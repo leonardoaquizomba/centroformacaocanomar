@@ -108,26 +108,43 @@ class ClassReportPage extends Page
                 $justified = $attendances->where('status', AttendanceStatus::Justificado)->count();
 
                 $grades = $gradesByUser->get($uid, collect());
-                $avgScore = $grades->count() > 0
-                    ? round($grades->avg('score'), 1)
-                    : null;
+                $avgScore = $grades->isNotEmpty() ? round($grades->avg('score'), 1) : null;
+                $avgMaxScore = $grades->isNotEmpty() ? round($grades->avg('max_score'), 1) : null;
+
+                $attendancePct = $total > 0 ? (int) round(($present + $late) / $total * 100) : null;
 
                 return [
                     'name' => $enrollment->user->name,
                     'enrollment_status' => $enrollment->status->getLabel(),
+                    'enrollment_status_class' => $this->statusBadgeClass($enrollment->status->getColor()),
                     'total_sessions' => $total,
                     'present' => $present,
                     'absent' => $absent,
                     'late' => $late,
                     'justified' => $justified,
-                    'attendance_pct' => $total > 0 ? (int) round(($present + $late) / $total * 100) : null,
+                    'attendance_pct' => $attendancePct,
                     'grade_count' => $grades->count(),
                     'grade_avg' => $avgScore,
+                    'grade_avg_max' => $avgMaxScore,
                 ];
             })
             ->sortBy('name')
             ->values()
             ->all();
+
+        $reports = collect($this->studentReports);
+        $attendancePcts = $reports->pluck('attendance_pct')->filter();
+        $studentsWithGrades = $reports->filter(fn ($s) => $s['grade_avg'] !== null);
+
+        $this->classInfo['class_avg_attendance'] = $attendancePcts->isNotEmpty()
+            ? (int) round($attendancePcts->avg())
+            : null;
+        $this->classInfo['class_avg_grade'] = $studentsWithGrades->isNotEmpty()
+            ? round($studentsWithGrades->avg('grade_avg'), 1)
+            : null;
+        $this->classInfo['class_avg_grade_max'] = $studentsWithGrades->isNotEmpty()
+            ? round($studentsWithGrades->avg('grade_avg_max'), 1)
+            : null;
     }
 
     /** @return array<int, string> */
@@ -140,5 +157,16 @@ class ClassReportPage extends Page
             ->get()
             ->mapWithKeys(fn ($c) => [$c->id => "{$c->course->name} – {$c->name}"])
             ->all();
+    }
+
+    private function statusBadgeClass(string|array|null $color): string
+    {
+        return match ($color) {
+            'warning' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+            'info' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+            'success' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+            'danger' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+            default => 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300',
+        };
     }
 }
