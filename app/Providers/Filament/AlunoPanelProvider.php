@@ -30,6 +30,7 @@ class AlunoPanelProvider extends PanelProvider
             ->brandName('Canomar – Portal do Aluno')
             ->brandLogoHeight('2.5rem')
             ->darkMode()
+            ->sidebarCollapsibleOnDesktop()
             ->colors([
                 'primary' => '#EC671C',
             ])

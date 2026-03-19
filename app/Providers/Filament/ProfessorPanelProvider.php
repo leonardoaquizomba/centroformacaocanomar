@@ -30,6 +30,7 @@ class ProfessorPanelProvider extends PanelProvider
             ->brandName('Canomar – Portal do Professor')
             ->brandLogoHeight('2.5rem')
             ->darkMode()
+            ->sidebarCollapsibleOnDesktop()
             ->colors([
                 'primary' => '#EC671C',
             ])

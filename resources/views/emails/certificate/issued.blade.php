@@ -42,7 +42,10 @@
                 <p style="margin: 0 0 6px; font-size: 13px; color: #666;">Código do Certificado</p>
                 <div class="code">{{ $certificate->code }}</div>
             </div>
-            <a href="{{ config('app.url') }}/aluno" class="btn">Aceder ao Portal do Aluno</a>
+            <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
+                <a href="{{ config('app.url') }}/aluno/meus-certificados" class="btn">Descarregar Certificado</a>
+                <a href="{{ config('app.url') }}/aluno" class="btn" style="background: #171847;">Aceder ao Portal</a>
+            </div>
         </div>
         <div class="footer">
             <p>© {{ date('Y') }} Centro de Formação Canomar. Todos os direitos reservados.</p>

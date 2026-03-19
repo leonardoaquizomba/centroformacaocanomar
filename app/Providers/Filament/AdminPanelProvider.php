@@ -36,6 +36,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('images/Canomar horiznontal.webp'))
             ->brandLogoHeight('2.5rem')
             ->darkMode()
+            ->sidebarCollapsibleOnDesktop()
             ->multiFactorAuthentication([
                 EmailAuthentication::make()->codeExpiryMinutes(10),
                 AppAuthentication::make()->recoverable()->brandName('Canomar'),
@@ -52,21 +53,22 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([])
             ->plugins([
                 FilamentShieldPlugin::make()
-                ->gridColumns([
-                    'default' => 1,
-                    'sm' => 2,
-                    'lg' => 3
-                ])
-                ->sectionColumnSpan(1)
-                ->checkboxListColumns([
-                    'default' => 1,
-                    'sm' => 2,
-                    'lg' => 4,
-                ])
-                ->resourceCheckboxListColumns([
-                    'default' => 1,
-                    'sm' => 2,
-                ]),
+                    ->navigationGroup('Configurações')
+                    ->gridColumns([
+                        'default' => 1,
+                        'sm' => 2,
+                        'lg' => 3,
+                    ])
+                    ->sectionColumnSpan(1)
+                    ->checkboxListColumns([
+                        'default' => 1,
+                        'sm' => 2,
+                        'lg' => 4,
+                    ])
+                    ->resourceCheckboxListColumns([
+                        'default' => 1,
+                        'sm' => 2,
+                    ]),
             ])
             ->middleware([
                 EncryptCookies::class,

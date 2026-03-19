@@ -26,7 +26,7 @@ class EditStudentProfile extends Page
 
     protected static ?int $navigationSort = 10;
 
-    protected string $view = 'filament-panels::pages.page';
+    protected string $view = 'filament.aluno.pages.edit-student-profile';
 
     /** @var array<string, mixed>|null */
     public ?array $data = [];

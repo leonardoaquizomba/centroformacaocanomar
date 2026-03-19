@@ -3,10 +3,12 @@
 namespace App\Filament\Resources\Certificates\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 
 class CertificateForm
 {
@@ -29,7 +31,11 @@ class CertificateForm
                             ->searchable(),
                         Select::make('enrollment_id')
                             ->label('Inscrição')
-                            ->relationship('enrollment', 'id')
+                            ->relationship(
+                                'enrollment',
+                                'id',
+                                fn (Builder $query) => $query->doesntHave('certificate'),
+                            )
                             ->required(),
                         TextInput::make('code')
                             ->label('Código do Certificado')
@@ -40,9 +46,16 @@ class CertificateForm
                             ->label('Data de Emissão')
                             ->required()
                             ->displayFormat('d/m/Y'),
-                        TextInput::make('file_path')
-                            ->label('Caminho do Ficheiro PDF')
-                            ->disabled(),
+                        FileUpload::make('file_path')
+                            ->label('Certificado PDF')
+                            ->disk('private')
+                            ->directory('certificates')
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->maxSize(10240)
+                            ->downloadable()
+                            ->previewable(false)
+                            ->columnSpanFull()
+                            ->helperText('Ao guardar com um novo ficheiro, o aluno receberá automaticamente um email de notificação.'),
                     ]),
             ]);
     }

@@ -22,7 +22,7 @@ class ManageSettings extends Page
 
     protected static ?int $navigationSort = 90;
 
-    protected string $view = 'filament-panels::pages.page';
+    protected string $view = 'filament.pages.manage-settings';
 
     /** @var array<string, mixed>|null */
     public ?array $data = [];

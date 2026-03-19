@@ -3,15 +3,12 @@
 namespace App\Filament\Aluno\Resources;
 
 use App\Filament\Aluno\Resources\MeusCertificadosResource\Pages\ListMeusCertificados;
-use App\Filament\Exports\CertificateExporter;
 use App\Models\Certificate;
 use BackedEnum;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\ExportBulkAction;
+use Filament\Actions\Action;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -70,18 +67,17 @@ class MeusCertificadosResource extends Resource
             ->recordActions([
                 Action::make('download')
                     ->label('Descarregar PDF')
-                    ->icon('heroicon-o-arrow-down-tray')
+                    ->icon(Heroicon::OutlinedArrowDownTray)
                     ->color('primary')
                     ->visible(fn (Certificate $record): bool => (bool) $record->file_path)
                     ->url(fn (Certificate $record): string => route('download.certificate', $record))
                     ->openUrlInNewTab(),
             ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    ExportBulkAction::make()->exporter(CertificateExporter::class)->label('Exportar selecionados'),
-                ]),
-            ])
-            ->defaultSort('issued_at', 'desc');
+            ->toolbarActions([])
+            ->defaultSort('issued_at', 'desc')
+            ->emptyStateHeading('Ainda não tem certificados')
+            ->emptyStateDescription('Os seus certificados aparecerão aqui após a conclusão de um curso.')
+            ->emptyStateIcon(Heroicon::OutlinedDocumentCheck);
     }
 
     public static function getPages(): array
