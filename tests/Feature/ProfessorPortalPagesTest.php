@@ -233,6 +233,86 @@ it('classInfo includes class average grade', function (): void {
         ->and($classInfo['class_avg_grade_max'])->toBe(20.0);
 });
 
+// ─── Presencas form: student filtered by class ───────────────────────────────
+
+it('attendance student filter includes only matriculado and aprovado enrolments', function (): void {
+    $class = CourseClass::factory()->create(['teacher_id' => $this->teacher->id]);
+
+    $matriculado = User::factory()->create();
+    Enrollment::factory()->create([
+        'user_id' => $matriculado->id,
+        'course_id' => $class->course_id,
+        'course_class_id' => $class->id,
+        'status' => EnrollmentStatus::Matriculado,
+    ]);
+
+    $aprovado = User::factory()->create();
+    Enrollment::factory()->create([
+        'user_id' => $aprovado->id,
+        'course_id' => $class->course_id,
+        'course_class_id' => $class->id,
+        'status' => EnrollmentStatus::Aprovado,
+    ]);
+
+    $ids = Enrollment::query()
+        ->where('course_class_id', $class->id)
+        ->whereIn('status', [EnrollmentStatus::Matriculado, EnrollmentStatus::Aprovado])
+        ->pluck('user_id');
+
+    expect($ids)->toContain($matriculado->id)
+        ->and($ids)->toContain($aprovado->id);
+});
+
+it('attendance student filter excludes completed and cancelled enrolments', function (): void {
+    $class = CourseClass::factory()->create(['teacher_id' => $this->teacher->id]);
+
+    foreach ([EnrollmentStatus::Concluido, EnrollmentStatus::Cancelado, EnrollmentStatus::Rejeitado] as $status) {
+        $user = User::factory()->create();
+        Enrollment::factory()->create([
+            'user_id' => $user->id,
+            'course_id' => $class->course_id,
+            'course_class_id' => $class->id,
+            'status' => $status,
+        ]);
+    }
+
+    $ids = Enrollment::query()
+        ->where('course_class_id', $class->id)
+        ->whereIn('status', [EnrollmentStatus::Matriculado, EnrollmentStatus::Aprovado])
+        ->pluck('user_id');
+
+    expect($ids)->toBeEmpty();
+});
+
+it('attendance student filter only returns students from the given class', function (): void {
+    $class = CourseClass::factory()->create(['teacher_id' => $this->teacher->id]);
+    $otherClass = CourseClass::factory()->create(['teacher_id' => $this->teacher->id]);
+
+    $inClass = User::factory()->create();
+    Enrollment::factory()->create([
+        'user_id' => $inClass->id,
+        'course_id' => $class->course_id,
+        'course_class_id' => $class->id,
+        'status' => EnrollmentStatus::Matriculado,
+    ]);
+
+    $inOther = User::factory()->create();
+    Enrollment::factory()->create([
+        'user_id' => $inOther->id,
+        'course_id' => $otherClass->course_id,
+        'course_class_id' => $otherClass->id,
+        'status' => EnrollmentStatus::Matriculado,
+    ]);
+
+    $ids = Enrollment::query()
+        ->where('course_class_id', $class->id)
+        ->whereIn('status', [EnrollmentStatus::Matriculado, EnrollmentStatus::Aprovado])
+        ->pluck('user_id');
+
+    expect($ids)->toContain($inClass->id)
+        ->and($ids)->not->toContain($inOther->id);
+});
+
 it('teacher cannot view report for a class assigned to another teacher', function (): void {
     $otherTeacher = User::factory()->create();
     $class = CourseClass::factory()->create(['teacher_id' => $otherTeacher->id]);

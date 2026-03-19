@@ -3,11 +3,13 @@
 namespace App\Filament\Professor\Resources;
 
 use App\Enums\AttendanceStatus;
+use App\Enums\EnrollmentStatus;
 use App\Filament\Professor\Resources\PresencasResource\Pages\CreatePresenca;
 use App\Filament\Professor\Resources\PresencasResource\Pages\EditPresenca;
 use App\Filament\Professor\Resources\PresencasResource\Pages\ListPresencas;
 use App\Models\Attendance;
 use App\Models\CourseClass;
+use App\Models\Enrollment;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -60,12 +62,20 @@ class PresencasResource extends Resource
                             ->where('teacher_id', Auth::id())
                             ->pluck('name', 'id'))
                         ->required()
+                        ->live()
                         ->searchable(),
                     Select::make('user_id')
                         ->label('Aluno')
-                        ->relationship('student', 'name')
+                        ->options(fn ($get) => Enrollment::query()
+                            ->where('course_class_id', $get('course_class_id'))
+                            ->whereIn('status', [EnrollmentStatus::Matriculado, EnrollmentStatus::Aprovado])
+                            ->with('user')
+                            ->get()
+                            ->pluck('user.name', 'user_id'))
                         ->required()
-                        ->searchable(),
+                        ->searchable()
+                        ->disabled(fn ($get): bool => blank($get('course_class_id')))
+                        ->helperText(fn ($get): ?string => blank($get('course_class_id')) ? 'Seleccione primeiro a turma.' : null),
                     DatePicker::make('session_date')
                         ->label('Data da Sessão')
                         ->required()
