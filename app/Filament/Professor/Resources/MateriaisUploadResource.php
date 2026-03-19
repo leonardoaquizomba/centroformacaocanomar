@@ -8,6 +8,7 @@ use App\Filament\Professor\Resources\MateriaisUploadResource\Pages\ListMateriais
 use App\Models\CourseClass;
 use App\Models\CourseMaterial;
 use BackedEnum;
+use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\FileUpload;
@@ -52,11 +53,9 @@ class MateriaisUploadResource extends Resource
                 ->schema([
                     Select::make('course_class_id')
                         ->label('Turma')
-                        ->options(
-                            CourseClass::query()
-                                ->where('teacher_id', Auth::id())
-                                ->pluck('name', 'id')
-                        )
+                        ->options(fn () => CourseClass::query()
+                            ->where('teacher_id', Auth::id())
+                            ->pluck('name', 'id'))
                         ->required()
                         ->searchable(),
                     TextInput::make('title')
@@ -97,7 +96,7 @@ class MateriaisUploadResource extends Resource
                 EditAction::make(),
             ])
             ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
+                BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
             ])

@@ -9,6 +9,7 @@ use App\Filament\Professor\Resources\PresencasResource\Pages\ListPresencas;
 use App\Models\Attendance;
 use App\Models\CourseClass;
 use BackedEnum;
+use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
@@ -55,11 +56,9 @@ class PresencasResource extends Resource
                 ->schema([
                     Select::make('course_class_id')
                         ->label('Turma')
-                        ->options(
-                            CourseClass::query()
-                                ->where('teacher_id', Auth::id())
-                                ->pluck('name', 'id')
-                        )
+                        ->options(fn () => CourseClass::query()
+                            ->where('teacher_id', Auth::id())
+                            ->pluck('name', 'id'))
                         ->required()
                         ->searchable(),
                     Select::make('user_id')
@@ -106,11 +105,9 @@ class PresencasResource extends Resource
             ->filters([
                 SelectFilter::make('course_class_id')
                     ->label('Turma')
-                    ->options(
-                        CourseClass::query()
-                            ->where('teacher_id', Auth::id())
-                            ->pluck('name', 'id')
-                    ),
+                    ->options(fn () => CourseClass::query()
+                        ->where('teacher_id', Auth::id())
+                        ->pluck('name', 'id')),
                 SelectFilter::make('status')
                     ->label('Estado')
                     ->options(AttendanceStatus::class),
@@ -119,7 +116,7 @@ class PresencasResource extends Resource
                 EditAction::make(),
             ])
             ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
+                BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
             ])

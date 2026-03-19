@@ -9,6 +9,7 @@ use App\Models\CourseClass;
 use App\Models\Enrollment;
 use App\Models\Grade;
 use BackedEnum;
+use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
@@ -55,13 +56,11 @@ class NotasResource extends Resource
                 ->schema([
                     Select::make('course_class_id')
                         ->label('Turma')
-                        ->options(
-                            CourseClass::query()
-                                ->where('teacher_id', Auth::id())
-                                ->pluck('name', 'id')
-                        )
+                        ->options(fn () => CourseClass::query()
+                            ->where('teacher_id', Auth::id())
+                            ->pluck('name', 'id'))
                         ->required()
-                        ->reactive()
+                        ->live()
                         ->searchable(),
                     Select::make('enrollment_id')
                         ->label('Aluno / Inscrição')
@@ -130,17 +129,15 @@ class NotasResource extends Resource
             ->filters([
                 SelectFilter::make('course_class_id')
                     ->label('Turma')
-                    ->options(
-                        CourseClass::query()
-                            ->where('teacher_id', Auth::id())
-                            ->pluck('name', 'id')
-                    ),
+                    ->options(fn () => CourseClass::query()
+                        ->where('teacher_id', Auth::id())
+                        ->pluck('name', 'id')),
             ])
             ->recordActions([
                 EditAction::make(),
             ])
             ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
+                BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
             ])

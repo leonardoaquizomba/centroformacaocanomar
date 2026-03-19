@@ -87,6 +87,11 @@ class CourseClassSeeder extends Seeder
             ],
         ];
 
+        // Assign the generic test professor to the first available class so they can test the portal
+        $testProfessor = User::where('email', 'professor@canomar.ao')->first();
+
+        $firstClassForTestProfessor = true;
+
         foreach ($classDefinitions as $courseSlug => $classes) {
             $course = Course::where('slug', $courseSlug)->first();
 
@@ -101,10 +106,15 @@ class CourseClassSeeder extends Seeder
                 $isPast = $endDate < new \DateTime('today');
                 $isActive = ! $isPast;
 
+                $teacherId = ($firstClassForTestProfessor && $testProfessor)
+                    ? $testProfessor->id
+                    : $def['teacher']->id;
+                $firstClassForTestProfessor = false;
+
                 $class = CourseClass::firstOrCreate(
                     ['course_id' => $course->id, 'name' => $def['label']],
                     [
-                        'teacher_id' => $def['teacher']->id,
+                        'teacher_id' => $teacherId,
                         'start_date' => $startDate->format('Y-m-d'),
                         'end_date' => $endDate->format('Y-m-d'),
                         'max_students' => 20,
