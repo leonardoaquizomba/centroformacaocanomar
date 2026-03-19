@@ -225,7 +225,7 @@
 
             <!-- Bottom bar -->
             <div class="border-t border-white/10 mt-12 pt-7 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-                <p>&copy; {{ date('Y') }} Centro de Formação Canomar. Todos os direitos reservados.</p>
+                <p>&copy; {{ date('Y') }} Centro de Formação Canomar. Todos os direitos reservados. By: LeoQuiz</p>
                 <div class="flex items-center gap-5">
                     <a href="#" class="hover:text-primary-400 transition-colors">Política de Privacidade</a>
                     <a href="#" class="hover:text-primary-400 transition-colors">Termos de Uso</a>
