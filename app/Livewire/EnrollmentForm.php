@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Enums\DocumentType;
 use App\Enums\EnrollmentStatus;
 use App\Events\EnrollmentSubmitted;
+use App\Events\UserRegistered;
 use App\Models\Course;
 use App\Models\CourseClass;
 use App\Models\Enrollment;
@@ -88,12 +89,14 @@ class EnrollmentForm extends Component
     {
         $this->authMode = 'login';
         $this->resetErrorBag();
+        $this->reset('registerName', 'registerEmail', 'registerPassword', 'registerPasswordConfirmation');
     }
 
     public function showRegister(): void
     {
         $this->authMode = 'register';
         $this->resetErrorBag();
+        $this->reset('authEmail', 'authPassword');
     }
 
     public function login(): void
@@ -119,7 +122,7 @@ class EnrollmentForm extends Component
         $this->validate([
             'registerName' => 'required|min:2|max:100',
             'registerEmail' => 'required|email|max:100|unique:users,email',
-            'registerPassword' => 'required|min:8|confirmed',
+            'registerPassword' => 'required|min:8|same:registerPasswordConfirmation',
         ]);
 
         $user = User::create([
@@ -133,6 +136,8 @@ class EnrollmentForm extends Component
         }
 
         Auth::login($user);
+
+        UserRegistered::dispatch($user);
 
         $this->name = $user->name;
         $this->email = $user->email;
