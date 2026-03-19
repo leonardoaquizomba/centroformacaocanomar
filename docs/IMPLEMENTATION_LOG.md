@@ -2,6 +2,19 @@
 
 ---
 
+## 2026-03-19 – Teacher Portal: Scope Resources to Assigned Classes
+
+**Task:** Fix teacher dashboard — materials, grades, and attendance must be scoped to the teacher's assigned classes; adding materials was not possible
+
+**What was done:**
+- Wrapped all `->options(CourseClass::query()->where('teacher_id', Auth::id())...)` calls in closures (`fn () =>`) across `MateriaisUploadResource`, `PresencasResource`, and `NotasResource` for correct lazy evaluation with Livewire 4
+- Applied the same closure fix to `SelectFilter` options in `PresencasResource` and `NotasResource`
+- Replaced `->reactive()` with `->live()` in `NotasResource` (Filament 5 / Livewire 4 API)
+- Updated `CourseClassSeeder` to assign the first class to the generic test professor account (`professor@canomar.ao`) so the portal is testable on fresh seeds
+- Assigned class ID 1 to test professor (ID 2) in the live DB via tinker
+
+---
+
 ## 2026-03-16 – Dynamic Site Settings System
 
 **Task:** Admin-editable contact info and social media links
