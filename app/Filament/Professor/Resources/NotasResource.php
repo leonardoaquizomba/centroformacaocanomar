@@ -2,6 +2,7 @@
 
 namespace App\Filament\Professor\Resources;
 
+use App\Enums\EnrollmentStatus;
 use App\Filament\Professor\Resources\NotasResource\Pages\CreateNota;
 use App\Filament\Professor\Resources\NotasResource\Pages\EditNota;
 use App\Filament\Professor\Resources\NotasResource\Pages\ListNotas;
@@ -63,21 +64,17 @@ class NotasResource extends Resource
                         ->live()
                         ->searchable(),
                     Select::make('enrollment_id')
-                        ->label('Aluno / Inscrição')
+                        ->label('Aluno')
                         ->options(fn ($get) => Enrollment::query()
                             ->where('course_class_id', $get('course_class_id'))
-                            ->whereIn('status', ['matriculado', 'concluído'])
+                            ->whereIn('status', [EnrollmentStatus::Matriculado, EnrollmentStatus::Aprovado, EnrollmentStatus::Concluido])
                             ->with('user')
                             ->get()
-                            ->pluck('user.name', 'id')
-                        )
+                            ->pluck('user.name', 'id'))
                         ->required()
-                        ->searchable(),
-                    Select::make('user_id')
-                        ->label('Aluno (utilizador)')
-                        ->relationship('student', 'name')
-                        ->required()
-                        ->searchable(),
+                        ->searchable()
+                        ->disabled(fn ($get): bool => blank($get('course_class_id')))
+                        ->helperText(fn ($get): ?string => blank($get('course_class_id')) ? 'Seleccione primeiro a turma.' : null),
                     TextInput::make('name')
                         ->label('Avaliação')
                         ->required()

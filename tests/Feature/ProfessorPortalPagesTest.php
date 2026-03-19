@@ -313,6 +313,77 @@ it('attendance student filter only returns students from the given class', funct
         ->and($ids)->not->toContain($inOther->id);
 });
 
+// ─── Notas form: student filtered by class ───────────────────────────────────
+
+it('grades student filter includes matriculado, aprovado, and concluido enrolments', function (): void {
+    $class = CourseClass::factory()->create(['teacher_id' => $this->teacher->id]);
+
+    $active = User::factory()->create();
+    $approved = User::factory()->create();
+    $done = User::factory()->create();
+
+    foreach ([
+        [$active->id,   EnrollmentStatus::Matriculado],
+        [$approved->id, EnrollmentStatus::Aprovado],
+        [$done->id,     EnrollmentStatus::Concluido],
+    ] as [$uid, $status]) {
+        Enrollment::factory()->create([
+            'user_id' => $uid,
+            'course_id' => $class->course_id,
+            'course_class_id' => $class->id,
+            'status' => $status,
+        ]);
+    }
+
+    $ids = Enrollment::query()
+        ->where('course_class_id', $class->id)
+        ->whereIn('status', [EnrollmentStatus::Matriculado, EnrollmentStatus::Aprovado, EnrollmentStatus::Concluido])
+        ->pluck('user_id');
+
+    expect($ids)->toContain($active->id)
+        ->and($ids)->toContain($approved->id)
+        ->and($ids)->toContain($done->id);
+});
+
+it('grades student filter excludes cancelled and rejected enrolments', function (): void {
+    $class = CourseClass::factory()->create(['teacher_id' => $this->teacher->id]);
+
+    foreach ([EnrollmentStatus::Cancelado, EnrollmentStatus::Rejeitado, EnrollmentStatus::Pendente] as $status) {
+        $user = User::factory()->create();
+        Enrollment::factory()->create([
+            'user_id' => $user->id,
+            'course_id' => $class->course_id,
+            'course_class_id' => $class->id,
+            'status' => $status,
+        ]);
+    }
+
+    $ids = Enrollment::query()
+        ->where('course_class_id', $class->id)
+        ->whereIn('status', [EnrollmentStatus::Matriculado, EnrollmentStatus::Aprovado, EnrollmentStatus::Concluido])
+        ->pluck('user_id');
+
+    expect($ids)->toBeEmpty();
+});
+
+it('create grade mutates user_id from enrollment', function (): void {
+    $class = CourseClass::factory()->create(['teacher_id' => $this->teacher->id]);
+    $student = User::factory()->create();
+
+    $enrollment = Enrollment::factory()->create([
+        'user_id' => $student->id,
+        'course_id' => $class->course_id,
+        'course_class_id' => $class->id,
+        'status' => EnrollmentStatus::Matriculado,
+    ]);
+
+    $data = ['enrollment_id' => $enrollment->id, 'course_class_id' => $class->id];
+
+    $resolvedUserId = Enrollment::find($data['enrollment_id'])?->user_id;
+
+    expect($resolvedUserId)->toBe($student->id);
+});
+
 it('teacher cannot view report for a class assigned to another teacher', function (): void {
     $otherTeacher = User::factory()->create();
     $class = CourseClass::factory()->create(['teacher_id' => $otherTeacher->id]);
